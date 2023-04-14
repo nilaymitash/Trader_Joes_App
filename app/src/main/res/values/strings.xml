@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Trader Joes</string>
 
+    <!--Common strings-->
+    <string name="back">Back</string>
+
     <!--Main Activity-->
     <string name="log_in">Log In</string>
     <string name="logo_alt_text">Trader Joe\'s logo</string>
@@ -10,4 +13,13 @@
     <string name="terms_n_condition">
         By tapping Continue or Create Account, I agree to Trader Joe\'s <a href="">Terms of Service</a>, <a href="">Payments Terms of Service</a>, <a href="">Privacy Policy</a>, and <a href="">Non-discrimination Policy</a>.
     </string>
+    <string name="signing_out_extra">SIGNING_OUT</string>
+    <string name="sign_out_msg">You have been signed out.</string>
+
+    <!--Login Activity-->
+    <string name="username_hint">Enter your email</string>
+    <string name="password_hint">Enter password</string>
+    <string name="invalid_creds">Invalid credentials.</string>
+    <string name="need_help">Need help logging in?</string>
+
 </resources>

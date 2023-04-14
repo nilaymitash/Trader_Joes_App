@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.LoginActivity">
+
+    <Button
+        android:id="@+id/back_to_main_btn"
+        android:text="@string/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        style="@style/Widget.Material3.Button.TextButton"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="20dp"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/validation_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/invalid_creds"
+            android:textColor="@color/red"/>
+
+        <EditText
+            android:id="@+id/username_input"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="10dp"
+            android:autofillHints="emailAddress"
+            android:hint="@string/username_hint"
+            android:inputType="textEmailAddress"
+            android:maxLength="50"
+            android:maxLines="1" />
+
+        <EditText
+            android:id="@+id/password_input"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/password_hint"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:layout_marginBottom="10dp"
+            android:autofillHints="password"/>
+
+        <Button
+            android:id="@+id/login_btn"
+            android:text="@string/log_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_button"
+            android:textSize="20sp"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+
+</RelativeLayout>
