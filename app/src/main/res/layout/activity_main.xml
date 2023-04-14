@@ -1,33 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    android:orientation="horizontal"
+    tools:context=".activity.MainActivity"
+    android:padding="20dp"
+    android:id="@+id/main_layout">
+
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_alignParentEnd="true"
+        android:text="@string/log_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:layout_marginBottom="10dp"
+        style="@style/Widget.Material3.Button.TextButton"/>
+
+    <ImageView
+        android:id="@+id/logo_img"
+        android:layout_below="@id/login_btn"
+        android:contentDescription="@string/logo_alt_text"
+        android:layout_width="wrap_content"
+        android:layout_height="125dp"
+        android:src="@drawable/trader_joes_logo"
+        android:scaleType="fitStart"/>
 
     <TextView
+        android:id="@+id/welcome_label"
+        android:layout_below="@id/logo_img"
+        android:text="@string/welcome_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="25sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="30dp"/>
 
-    <!--<Button
-        android:id="@+id/google_login_btn"
-        android:layout_width="wrap_content"
+    <Button
+        app:icon="@drawable/google_icon"
+        app:iconGravity="textStart"
+        app:iconPadding="20dp"
+        style="@style/Widget.Material3.Button.IconButton.Filled"
+        android:id="@+id/google_btn"
+        android:layout_below="@id/welcome_label"
+        android:text="@string/google_login"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/rounded_corners"
-        android:drawableStart="@drawable/google_icon"
-        android:drawableLeft="@drawable/google_icon"
-        android:drawablePadding="8dp"
-        android:padding="8dp"
-        android:text="Sign in with Google"
-        android:textAllCaps="false"
-        android:textColor="@color/GoogleTextColor"
-        android:textStyle="bold" />-->
+        android:background="@drawable/rounded_corner_button"
+        android:textSize="18sp"
+        android:layout_marginBottom="10dp"
+        android:textAllCaps="true"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/create_account_btn"
+        android:layout_below="@id/google_btn"
+        android:text="@string/create_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_button"
+        android:textSize="18sp"
+        android:layout_marginBottom="50dp"
+        android:textAllCaps="true"
+        style="@style/Widget.Material3.Button"/>
+
+    <TextView
+        android:layout_below="@id/create_account_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/terms_n_condition"
+        android:layout_alignParentStart="true"/>
+
+</RelativeLayout>
+

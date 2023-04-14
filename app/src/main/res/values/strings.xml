@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Trader Joes</string>
+
+    <!--Main Activity-->
+    <string name="log_in">Log In</string>
+    <string name="logo_alt_text">Trader Joe\'s logo</string>
+    <string name="google_login">Continue with Google</string>
+    <string name="create_account">Create Account</string>
+    <string name="welcome_msg">Welcome to Trader Joe\'s.</string>
+    <string name="terms_n_condition">
+        By tapping Continue or Create Account, I agree to Trader Joe\'s <a href="">Terms of Service</a>, <a href="">Payments Terms of Service</a>, <a href="">Privacy Policy</a>, and <a href="">Non-discrimination Policy</a>.
+    </string>
 </resources>
