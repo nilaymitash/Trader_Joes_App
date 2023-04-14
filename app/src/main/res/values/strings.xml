@@ -22,4 +22,11 @@
     <string name="invalid_creds">Invalid credentials.</string>
     <string name="need_help">Need help logging in?</string>
 
+    <!--Signup Activity-->
+    <string name="signup_email_hint">Enter an email</string>
+    <string name="signup_password_hint">Enter a password</string>
+    <string name="signup_confirm_password_hint">Confirm password</string>
+    <string name="passwords_dont_match">Passwords must match.</string>
+    <string name="invalid_email">Please enter a valid email.</string>
+
 </resources>
