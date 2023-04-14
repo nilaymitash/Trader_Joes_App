@@ -1,8 +1,10 @@
-package com.trader.joes;
+package com.trader.joes.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.trader.joes.R;
 
 public class MainActivity extends AppCompatActivity {
 
