@@ -100,7 +100,6 @@ public class SignupActivity extends AppCompatActivity {
                 String email = mEmailInput.getText().toString();
                 String password = mPasswordInput.getText().toString();
                 createAccount(email, password);
-                navigateToProductSearch();
             }
         }
 
@@ -168,8 +167,10 @@ public class SignupActivity extends AppCompatActivity {
                                 // Sign in success, navigate the user to the home page
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 //TODO: add user to Intent
+                                navigateToProductSearch();
                             } else {
-                                Snackbar.make(mSignupActivity, "Oops! Something went wrong.", Snackbar.LENGTH_LONG).show();
+                                //Snackbar.make(mSignupActivity, task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
+                                Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
                     });

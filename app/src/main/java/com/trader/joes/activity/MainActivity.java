@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
             //add currentUser to intent
             Toast.makeText(this, "User already logged in: " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
         }
+
+        //force logout
+        mAuth.signOut();
     }
 
     @Override
