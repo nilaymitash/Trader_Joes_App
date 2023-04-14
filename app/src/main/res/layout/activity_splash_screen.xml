@@ -10,13 +10,22 @@
     tools:context=".activity.SplashScreenActivity">
 
     <TextView
-        android:text="Welcome to"
+        android:text="Welcome"
+        android:fontFamily="@font/tj_font"
         android:textSize="32sp"
         android:textStyle="bold"
         android:textColor="@color/tj_red_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"/>
+    <TextView
+        android:text="to"
+        android:fontFamily="@font/tj_font"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/tj_red_primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <ImageView
         android:id="@+id/splash_image_view"
@@ -34,8 +43,5 @@
         android:layout_marginEnd="20dp"
         android:layout_centerInParent="true"
         android:indeterminateTint="@color/tj_red_primary"/>
-
-
-
 
 </LinearLayout>
