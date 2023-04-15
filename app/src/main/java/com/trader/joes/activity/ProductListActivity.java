@@ -8,30 +8,29 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.trader.joes.R;
+import com.trader.joes.service.AuthService;
 
 public class ProductListActivity extends AppCompatActivity {
 
     private TextView mWelcomeLabel;
     private Button mLogoutBtn;
-    private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
+    private AuthService authService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
 
+        authService = new AuthService();
         mWelcomeLabel = findViewById(R.id.welcome_msg);
         mLogoutBtn = findViewById(R.id.logout_btn);
-        mAuth = FirebaseAuth.getInstance();
 
         mLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuth.signOut();
+                authService.signOut();
                 signOutNavigation();
             }
         });
@@ -40,9 +39,8 @@ public class ProductListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = authService.getCurrentuser();
         if(currentUser != null){
-            this.currentUser = currentUser;
             this.mWelcomeLabel.setText("Welcome " + currentUser.getEmail());
         } else {
             //If the user's session has timed out while on this page, send them back to main screen

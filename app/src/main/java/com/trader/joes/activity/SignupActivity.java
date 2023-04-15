@@ -9,24 +9,18 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.trader.joes.R;
+import com.trader.joes.service.AuthService;
+
+import java.util.function.Consumer;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private RelativeLayout mSignupActivity;
     private Button mBackButton;
     private Button mSignupButton;
     private EditText mEmailInput;
@@ -35,15 +29,14 @@ public class SignupActivity extends AppCompatActivity {
     private TextView mEmailValidationLabel;
     private TextView mPasswordValidationLabel;
     private boolean isFormValid = false;
-    private FirebaseAuth mAuth;
+    private AuthService authService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        mSignupActivity = findViewById(R.id.signup_activity);
-        mAuth = FirebaseAuth.getInstance();
+        authService = new AuthService();
         mBackButton = findViewById(R.id.back_to_main_btn);
         mSignupButton = findViewById(R.id.signup_btn);
         mEmailInput = findViewById(R.id.signup_email_input);
@@ -64,8 +57,7 @@ public class SignupActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //if the user is already logged in, navigate to home page
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if(authService.isUserLoggedIn()) {
             startActivity(new Intent(SignupActivity.this, ProductListActivity.class));
         }
     }
@@ -98,11 +90,6 @@ public class SignupActivity extends AppCompatActivity {
                 String password = mPasswordInput.getText().toString();
                 createAccount(email, password);
             }
-        }
-
-        private void navigateToProductSearch() {
-            Toast.makeText(SignupActivity.this, "Account created and Login successful", Toast.LENGTH_SHORT).show();
-            //startActivity(new Intent(LoginActivity.this, ProductListActivity.class));
         }
 
         private void navigateBack() {
@@ -156,21 +143,15 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         private void createAccount(String email, String password) {
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()) {
-                                // Sign in success, navigate the user to the home page
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                //TODO: add user to Intent
-                                navigateToProductSearch();
-                            } else {
-                                //Snackbar.make(mSignupActivity, task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
-                                Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+            authService.createAccount(email, password, SignupActivity.this, navigateToProductSearch, showErrorMsg);
         }
+
+        Consumer showErrorMsg = (Object msg) -> {
+            Toast.makeText(SignupActivity.this, msg.toString(), Toast.LENGTH_LONG).show();
+        };
+
+        Consumer navigateToProductSearch = (Object object) -> {
+            startActivity(new Intent(SignupActivity.this, ProductListActivity.class));
+        };
     }
 }
