@@ -44,16 +44,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //if the user is already logged in, navigate to home page
-        //TODO: Navigate the user to home page
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            //navigate to home page
-            //add currentUser to intent
-            Toast.makeText(this, "User already logged in: " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this, ProductListActivity.class));
         }
-
-        //force logout
-        mAuth.signOut();
     }
 
     @Override

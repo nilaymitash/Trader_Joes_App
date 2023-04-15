@@ -27,19 +27,10 @@
         android:layout_below="@id/login_btn"
         android:contentDescription="@string/logo_alt_text"
         android:layout_width="wrap_content"
-        android:layout_height="125dp"
+        android:layout_height="150dp"
         android:src="@drawable/trader_joes_logo"
+        android:layout_marginBottom="45dp"
         android:scaleType="fitStart"/>
-
-    <TextView
-        android:id="@+id/welcome_label"
-        android:layout_below="@id/logo_img"
-        android:text="@string/welcome_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="30dp"/>
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.Material3.Button.IconButton.Outlined"
@@ -49,7 +40,7 @@
         app:strokeColor="@color/tj_red_primary"
         android:textStyle="bold"
         android:id="@+id/google_btn"
-        android:layout_below="@id/welcome_label"
+        android:layout_below="@id/logo_img"
         android:text="@string/google_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

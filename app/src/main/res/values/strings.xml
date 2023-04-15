@@ -9,11 +9,10 @@
     <string name="logo_alt_text">Trader Joe\'s logo</string>
     <string name="google_login">Continue with Google</string>
     <string name="create_account">Create Account</string>
-    <string name="welcome_msg">Welcome to Trader Joe\'s.</string>
     <string name="terms_n_condition">
         By tapping Continue or Create Account, I agree to Trader Joe\'s <a href="">Terms of Service</a>, <a href="">Payments Terms of Service</a>, <a href="">Privacy Policy</a>, and <a href="">Non-discrimination Policy</a>.
     </string>
-    <string name="signing_out_extra">SIGNING_OUT</string>
+    <string name="signing_out_extra">SIGNED_OUT</string>
     <string name="sign_out_msg">You have been signed out.</string>
 
     <!--Login Activity-->
