@@ -8,7 +8,7 @@ public class Product {
     private String sku;
     private String productName;
     private List<String> productCharacteristics;
-    private BigDecimal price;
+    private String price;
     private String imgURL;
     private List<Review> reviews;
 
@@ -36,11 +36,11 @@ public class Product {
         this.productCharacteristics = productCharacteristics;
     }
 
-    public BigDecimal getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

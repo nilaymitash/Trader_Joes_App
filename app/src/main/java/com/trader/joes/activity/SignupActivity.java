@@ -143,15 +143,20 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         private void createAccount(String email, String password) {
-            authService.createAccount(email, password, SignupActivity.this, navigateToProductSearch, showErrorMsg);
+            Consumer<Void> signupSuccessConsumer = new Consumer<Void>() {
+                @Override
+                public void accept(Void unused) {
+                    startActivity(new Intent(SignupActivity.this, ProductListActivity.class));
+                }
+            };
+
+            Consumer<String> signupFailureConsumer = new Consumer<String>() {
+                @Override
+                public void accept(String s) {
+                    Toast.makeText(SignupActivity.this, s, Toast.LENGTH_LONG).show();
+                }
+            };
+            authService.createAccount(email, password, SignupActivity.this, signupSuccessConsumer, signupFailureConsumer);
         }
-
-        Consumer showErrorMsg = (Object msg) -> {
-            Toast.makeText(SignupActivity.this, msg.toString(), Toast.LENGTH_LONG).show();
-        };
-
-        Consumer navigateToProductSearch = (Object object) -> {
-            startActivity(new Intent(SignupActivity.this, ProductListActivity.class));
-        };
     }
 }
