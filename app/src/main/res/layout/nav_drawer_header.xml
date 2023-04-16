@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -10,13 +11,34 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"/>
 
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/profile_pic"
-        android:text="Welcome, Username goes here"
-        android:layout_marginLeft="20dp"
-        android:textSize="16sp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true">
+        
+        <TextView
+            android:id="@+id/username_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome, Username goes here"
+            android:layout_marginLeft="20dp"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"/>
+
+        <!--<com.google.android.material.button.MaterialButton
+            android:layout_toRightOf="@id/username_label"
+            android:id="@+id/edit_profile_btn"
+            app:icon="@drawable/edit_icon"
+            app:strokeColor="@color/tj_red_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_centerVertical="true"/>-->
+
+    </RelativeLayout>
+
+
 
 </RelativeLayout>

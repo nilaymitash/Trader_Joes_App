@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
@@ -27,8 +28,6 @@ import java.util.function.Consumer;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TextView mWelcomeLabel;
-    private Button mLogoutBtn;
     private AuthService authService;
     private ProductRetrievalService productRetrievalService;
     private DrawerLayout mDrawerLayout;
@@ -43,14 +42,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         authService = new AuthService();
         productRetrievalService = new ProductRetrievalService();
-        /*mWelcomeLabel = findViewById(R.id.welcome_msg);
-        mLogoutBtn = findViewById(R.id.logout_btn);*/
 
         Consumer<List<Product>> productConsumer = new Consumer<List<Product>>() {
             @Override
             public void accept(List<Product> products) {
                 allProducts = products;
-                //populate recycler view list
+                //TODO: populate recycler view list
                 //System.out.println(allProducts);
             }
         };
@@ -83,7 +80,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         );
         mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
         mActionBarDrawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //to always show action bar menu icon
     }
 
     @Override
@@ -106,12 +103,37 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+        switch (item.getItemId()) {
+            case R.id.nav_view_products: displayComingSoonMsg();
+                break;
+            case R.id.nav_find_a_store: displayComingSoonMsg();
+                break;
+            case R.id.nav_account: displayComingSoonMsg();
+                break;
+            case R.id.nav_order_history: displayComingSoonMsg();
+                break;
+            case R.id.nav_logout: authService.signOut(); signOutNavigation();
+                break;
+            default: break;
+        }
+
+        /** Close the navigation drawer */
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+    
+    private void displayComingSoonMsg() {
+        Toast.makeText(this, "Coming soon...", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * to toggle drawer using action bar menu icon
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if (mActionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
