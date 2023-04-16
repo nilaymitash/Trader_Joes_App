@@ -1,5 +1,9 @@
 package com.trader.joes.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +16,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
 import com.trader.joes.R;
 import com.trader.joes.model.Product;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -45,10 +51,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = products.get(position);
 
-        //TODO: Download images
-        //holder.mProductImage.setImageResource(product.getImgSrc());
+        //Download product image:
+        //new DownloadImageTask(holder.mProductImage).execute(product.getImgURL());
+        Picasso.get().load(product.getImgURL()).into(holder.mProductImage);
+
         holder.mTextViewName.setText(String.valueOf(product.getProductName()));
-        holder.mTextViewPrice.setText("$" + String.valueOf(product.getPrice()));
+        holder.mTextViewPrice.setText("$" + product.getPrice());
         //holder.mTextViewDescription.setText(Utility.truncateString(product.getDescription(), 160));
         holder.mProductRating.setText(String.valueOf(product.getRating()));
         holder.mProductRatingBar.setRating(product.getRating());
@@ -79,6 +87,33 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             mProductRatingBar = itemView.findViewById(R.id.product_rating_bar);
             mProductRating = itemView.findViewById(R.id.product_rating);
             mNumOfRatings = itemView.findViewById(R.id.num_of_ratings);
+        }
+    }
+
+    /**
+     * This async download task has been replace by Picasso library.
+     */
+    @Deprecated
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap bmp = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                bmp = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
         }
     }
 }
