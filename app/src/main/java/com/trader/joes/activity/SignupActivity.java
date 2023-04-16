@@ -58,7 +58,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onStart();
         //if the user is already logged in, navigate to home page
         if(authService.isUserLoggedIn()) {
-            startActivity(new Intent(SignupActivity.this, ProductListActivity.class));
+            startActivity(new Intent(SignupActivity.this, HomeActivity.class));
         }
     }
 
@@ -146,7 +146,7 @@ public class SignupActivity extends AppCompatActivity {
             Consumer<Void> signupSuccessConsumer = new Consumer<Void>() {
                 @Override
                 public void accept(Void unused) {
-                    startActivity(new Intent(SignupActivity.this, ProductListActivity.class));
+                    startActivity(new Intent(SignupActivity.this, HomeActivity.class));
                 }
             };
 

@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         //if the user is already logged in, navigate to home page
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            startActivity(new Intent(MainActivity.this, ProductListActivity.class));
+            startActivity(new Intent(MainActivity.this, HomeActivity.class));
         }
     }
 

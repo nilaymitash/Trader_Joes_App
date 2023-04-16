@@ -28,4 +28,8 @@
     <string name="passwords_dont_match">Passwords must match.</string>
     <string name="invalid_email">Please enter a valid email.</string>
 
+    <!--Navigation drawer-->
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+
 </resources>

@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         //if the user is already logged in, navigate to home page
         if(authService.isUserLoggedIn()) {
-            startActivity(new Intent(LoginActivity.this, ProductListActivity.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         }
     }
 
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Consumer navigateToProductSearch = (Object object) -> {
             Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, ProductListActivity.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         };
 
         private void navigateBack() {
