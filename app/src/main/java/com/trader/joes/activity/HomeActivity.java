@@ -43,7 +43,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         authService = new AuthService();
 
-
         mDrawerLayout = findViewById(R.id.nav_drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);

@@ -9,7 +9,8 @@
     <ImageView
         android:id="@+id/product_img_holder"
         android:layout_width="150dp"
-        android:layout_height="150dp"/>
+        android:layout_height="150dp"
+        android:layout_marginRight="10dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -6,6 +6,7 @@
 
     <ImageView
         android:id="@+id/profile_pic"
+        android:src="@drawable/profile_pic_placeholder"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerHorizontal="true"
