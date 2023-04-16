@@ -32,4 +32,6 @@
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
 
+    <!--Product list view-->
+    <string name="add_to_cart">Add to cart</string>
 </resources>

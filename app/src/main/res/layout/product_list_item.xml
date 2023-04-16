@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/product_img_holder"
+        android:layout_width="150dp"
+        android:layout_height="150dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/product_img_holder">
+
+        <TextView
+            android:id="@+id/product_title"
+            android:text="Title goes here"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/product_rating"
+            android:text="4.0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_title"
+            android:textSize="12sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
+
+        <RatingBar
+            android:id="@+id/product_rating_bar"
+            android:layout_below="@+id/product_title"
+            android:layout_toRightOf="@id/product_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:isIndicator="true"
+            style="?android:attr/ratingBarStyleSmall"/>
+
+        <TextView
+            android:id="@+id/num_of_ratings"
+            android:text="(100)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_title"
+            android:layout_toRightOf="@id/product_rating_bar"
+            android:textSize="12sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
+
+        <TextView
+            android:id="@+id/product_price"
+            android:text="$99.99"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_rating"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"/>
+
+        <!--<TextView
+            android:id="@+id/product_description"
+            android:text="Truncated description..."
+            android:layout_below="@+id/product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"/>-->
+        <Button
+            android:id="@+id/add_to_cart_list_view"
+            android:layout_below="@+id/product_price"
+            android:text="@string/add_to_cart"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Material3.Button"/>
+    </RelativeLayout>
+</RelativeLayout>

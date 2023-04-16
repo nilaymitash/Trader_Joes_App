@@ -59,4 +59,22 @@ public class Product {
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
+
+    public float getRating() {
+        if(reviews != null) {
+            float totalRating = 0;
+            for(Review review : this.reviews) {
+                totalRating += review.getRating();
+            }
+            return totalRating/this.reviews.size();
+        }
+        return 0;
+    }
+
+    public int getNumOfRatings() {
+        if(reviews != null)
+            return this.reviews.size();
+        else
+            return 0;
+    }
 }

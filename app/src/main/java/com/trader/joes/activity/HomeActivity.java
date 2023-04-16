@@ -18,6 +18,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.trader.joes.R;
+import com.trader.joes.fragments.ProductListFragment;
 import com.trader.joes.model.Product;
 import com.trader.joes.service.AuthService;
 import com.trader.joes.service.ProductRetrievalService;
@@ -41,32 +42,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_home);
 
         authService = new AuthService();
-        productRetrievalService = new ProductRetrievalService();
-
-        Consumer<List<Product>> productConsumer = new Consumer<List<Product>>() {
-            @Override
-            public void accept(List<Product> products) {
-                allProducts = products;
-                //TODO: populate recycler view list
-                //System.out.println(allProducts);
-            }
-        };
-
-        Consumer<DatabaseError> dbErrorConsumer = new Consumer<DatabaseError>() {
-            @Override
-            public void accept(DatabaseError databaseError) {
-                Toast.makeText(HomeActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        };
-        productRetrievalService.getAllProducts(productConsumer, dbErrorConsumer);
-
-        /*mLogoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                authService.signOut();
-                signOutNavigation();
-            }
-        });*/
 
 
         mDrawerLayout = findViewById(R.id.nav_drawer_layout);
@@ -81,6 +56,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
         mActionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //to always show action bar menu icon
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new ProductListFragment()).commit();
     }
 
     @Override
