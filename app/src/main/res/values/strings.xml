@@ -27,6 +27,7 @@
     <string name="signup_confirm_password_hint">Confirm password</string>
     <string name="passwords_dont_match">Passwords must match.</string>
     <string name="invalid_email">Please enter a valid email.</string>
+    <string name="signup">Sign up</string>
 
     <!--Navigation drawer-->
     <string name="navigation_drawer_open">Open</string>
