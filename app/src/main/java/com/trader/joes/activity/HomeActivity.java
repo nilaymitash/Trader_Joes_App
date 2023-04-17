@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onStart();
         FirebaseUser currentUser = authService.getCurrentUser();
         if(currentUser != null){
-            //this.mWelcomeLabel.setText("Welcome " + currentUser.getEmail());
+            Toast.makeText(this, "Welcome " + currentUser.getUid(), Toast.LENGTH_SHORT).show();
         } else {
             //If the user's session has timed out while on this page, send them back to main screen
             signOutNavigation();
@@ -80,7 +80,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_view_products: displayComingSoonMsg();
+            case R.id.nav_view_products:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProductListFragment()).commit();
                 break;
             case R.id.nav_find_a_store: displayComingSoonMsg();
                 break;

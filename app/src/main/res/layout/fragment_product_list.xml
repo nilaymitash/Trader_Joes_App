@@ -14,4 +14,17 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/product_list_item"/>
 
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.Material3.Button.IconButton.Filled"
+        app:icon="@drawable/cart_outline"
+        app:iconSize="32dp"
+        app:strokeColor="@color/tj_red_primary"
+        android:id="@+id/floating_cart_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="10dp"
+        android:elevation="10dp"/>
+
 </FrameLayout>
