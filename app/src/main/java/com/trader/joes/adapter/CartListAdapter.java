@@ -4,13 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.squareup.picasso.Picasso;
 import com.trader.joes.R;
 import com.trader.joes.model.CartItem;
@@ -58,6 +58,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private MaterialCardView mCartItemCard;
         private ImageView mProductImageView;
         private TextView mTextViewName;
         private TextView mTextViewPrice;
@@ -71,6 +72,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
             super(itemView);
             userDataMaintenanceService = new UserDataMaintenanceService();
 
+            mCartItemCard = itemView.findViewById(R.id.cart_item_card);
             mProductImageView = itemView.findViewById(R.id.cart_product_img);
             mTextViewName = itemView.findViewById(R.id.cart_product_title);
             mTextViewPrice = itemView.findViewById(R.id.cart_product_price);

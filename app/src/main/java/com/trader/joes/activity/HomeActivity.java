@@ -3,9 +3,6 @@ package com.trader.joes.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,17 +13,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseError;
 import com.trader.joes.R;
 import com.trader.joes.fragments.ProductListFragment;
-import com.trader.joes.model.Product;
 import com.trader.joes.model.User;
 import com.trader.joes.service.AuthService;
-import com.trader.joes.service.ProductRetrievalService;
 import com.trader.joes.service.UserDataMaintenanceService;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {

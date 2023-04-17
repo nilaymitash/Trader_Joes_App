@@ -1,6 +1,5 @@
 package com.trader.joes.model;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class Product {
