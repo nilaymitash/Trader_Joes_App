@@ -37,10 +37,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         this.products = products;
     }
 
-    public ArrayList<Product> getSelectedProducts() {
-        return new ArrayList<>(this.selectedProducts.values());
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

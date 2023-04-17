@@ -1,5 +1,7 @@
 package com.trader.joes.service;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -8,6 +10,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.trader.joes.fragments.CartFragment;
 import com.trader.joes.model.CartItem;
 import com.trader.joes.model.Product;
 import com.trader.joes.model.User;
@@ -26,6 +29,10 @@ public class UserDataMaintenanceService {
         authService = new AuthService();
         database = FirebaseDatabase.getInstance();
         userDataRef = database.getReference();
+    }
+
+    public static User getCurrentUserData() {
+        return currentUser;
     }
 
     public void getCurrentUserData(String userId, Consumer<User> successCallback, Consumer<String> failureCallback) {
@@ -55,5 +62,19 @@ public class UserDataMaintenanceService {
 
         this.currentUser.addItemToCart(item);
         userDataRef.child("users").child(userId).setValue(this.currentUser);
+    }
+
+    public void removeCartItemFromUserCart(CartItem item) {
+        System.out.println("Deleting..." + item.getProductSku());
+        /*FirebaseUser firebaseUser = authService.getCurrentUser();
+        String userId = firebaseUser.getUid();
+
+        CartItem item = new CartItem();
+        item.setProductSku(product.getSku());
+        item.setPrice(product.getPrice());
+        item.setQty(1);
+
+        this.currentUser.addItemToCart(item);
+        userDataRef.child("users").child(userId).setValue(this.currentUser);*/
     }
 }

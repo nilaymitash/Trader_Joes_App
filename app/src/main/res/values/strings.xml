@@ -35,4 +35,6 @@
     <!--Product list view-->
     <string name="add_to_cart">Add to cart</string>
     <string name="view_cart_floating_btn">View cart</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

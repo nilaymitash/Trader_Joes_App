@@ -20,7 +20,7 @@ public class ProductRetrievalService {
 
     private final FirebaseDatabase database;
     private final DatabaseReference productsRef;
-    private Map<String, Product> allProductsMap = new LinkedHashMap<>();
+    private static Map<String, Product> allProductsMap = new LinkedHashMap<>();
 
     public ProductRetrievalService() {
         database = FirebaseDatabase.getInstance();
@@ -32,8 +32,8 @@ public class ProductRetrievalService {
      * to retrieve product name using SKU
      * @return
      */
-    public Map<String, Product> getAllProductsMap() {
-        return this.allProductsMap;
+    public static Map<String, Product> getAllProductsMap() {
+        return allProductsMap;
     }
 
     public void getAllProducts(Consumer<List<Product>> success, Consumer<DatabaseError> failure) {

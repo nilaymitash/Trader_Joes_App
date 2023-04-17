@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +27,7 @@ public class ProductListFragment extends Fragment {
 
     private ProductListAdapter mProductAdapter;
     private RecyclerView mProductListView;
+    private Button mViewCartBtn;
     private ProductRetrievalService productRetrievalService;
     private List<Product> allProducts = new ArrayList<>();
 
@@ -33,8 +35,10 @@ public class ProductListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        productRetrievalService = new ProductRetrievalService();
         View view = inflater.inflate(R.layout.fragment_product_list, container, false);
+
+        productRetrievalService = new ProductRetrievalService();
+        mViewCartBtn = view.findViewById(R.id.floating_cart_btn);
 
         Consumer<List<Product>> productConsumer = new Consumer<List<Product>>() {
             @Override
@@ -54,6 +58,13 @@ public class ProductListFragment extends Fragment {
             }
         };
         productRetrievalService.getAllProducts(productConsumer, dbErrorConsumer);
+
+        mViewCartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CartFragment()).commit();
+            }
+        });
 
         return view;
     }
