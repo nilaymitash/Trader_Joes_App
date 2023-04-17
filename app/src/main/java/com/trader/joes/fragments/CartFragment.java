@@ -39,21 +39,9 @@ public class CartFragment extends Fragment {
 
         userDataMaintenanceService = new UserDataMaintenanceService();
 
-        Consumer<List<Product>> productConsumer = new Consumer<List<Product>>() {
-            @Override
-            public void accept(List<Product> products) {
-
-            }
-        };
-
-        Consumer<DatabaseError> dbErrorConsumer = new Consumer<DatabaseError>() {
-            @Override
-            public void accept(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        };
-        User currentuser = userDataMaintenanceService.getCurrentUserData();
-        mCartListAdapter = new CartListAdapter(currentuser.getCartItems());
+        User currentUser = userDataMaintenanceService.getCurrentUserData();
+        mCartListAdapter = new CartListAdapter(currentUser.getCartItems());
+        
         mCartListView.setAdapter(mCartListAdapter);
 
         return view;

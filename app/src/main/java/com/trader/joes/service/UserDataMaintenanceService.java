@@ -90,16 +90,17 @@ public class UserDataMaintenanceService {
     }
 
     public void removeCartItemFromUserCart(CartItem item) {
-        System.out.println("Deleting..." + item.getProductSku());
-        /*FirebaseUser firebaseUser = authService.getCurrentUser();
+        FirebaseUser firebaseUser = authService.getCurrentUser();
         String userId = firebaseUser.getUid();
 
-        CartItem item = new CartItem();
-        item.setProductSku(product.getSku());
-        item.setPrice(product.getPrice());
-        item.setQty(1);
+        Map<String, CartItem> newCartMap = populateMap();
+        if(newCartMap.containsKey(item.getProductSku())) {
+            newCartMap.remove(item.getProductSku());
+        }
 
-        this.currentUser.addItemToCart(item);
+        userDataRef.child("users").child(userId).child("cartItems").setValue(new ArrayList<>(newCartMap.values()));
+
+        /*this.currentUser.setCartItems(new ArrayList<>(newCartMap.values()));
         userDataRef.child("users").child(userId).setValue(this.currentUser);*/
     }
 }

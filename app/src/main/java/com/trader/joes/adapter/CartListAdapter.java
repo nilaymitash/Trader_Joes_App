@@ -79,6 +79,8 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
                     int position = getLayoutPosition();
                     CartItem item = cartItems.get(position);
                     userDataMaintenanceService.removeCartItemFromUserCart(item);
+                    cartItems.remove(position);
+                    notifyDataSetChanged();
                 }
             });
         }
