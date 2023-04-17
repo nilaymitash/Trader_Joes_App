@@ -1,7 +1,5 @@
 package com.trader.joes.service;
 
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -10,11 +8,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.trader.joes.fragments.CartFragment;
 import com.trader.joes.model.CartItem;
 import com.trader.joes.model.Product;
 import com.trader.joes.model.User;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class UserDataMaintenanceService {
@@ -55,13 +55,38 @@ public class UserDataMaintenanceService {
         FirebaseUser firebaseUser = authService.getCurrentUser();
         String userId = firebaseUser.getUid();
 
-        CartItem item = new CartItem();
-        item.setProductSku(product.getSku());
-        item.setPrice(product.getPrice());
-        item.setQty(1);
+        if(currentUser == null) {
+            currentUser = new User();
+            currentUser.setuID(userId);
+        }
 
-        this.currentUser.addItemToCart(item);
+        Map<String, CartItem> newCartMap = populateMap();
+        if(currentUser.getCartItems() != null) {
+            if(newCartMap.containsKey(product.getSku())) {
+                newCartMap.get(product.getSku()).setQty(newCartMap.get(product.getSku()).getQty() + 1);
+            } else {
+                CartItem item = new CartItem();
+                item.setProductSku(product.getSku());
+                item.setPrice(product.getPrice());
+                item.setQty(1);
+                newCartMap.put(product.getSku(), item);
+            }
+        }
+
+        this.currentUser.setCartItems(new ArrayList<>(newCartMap.values()));
         userDataRef.child("users").child(userId).setValue(this.currentUser);
+    }
+
+    private Map<String, CartItem> populateMap() {
+        Map<String, CartItem> newCartMap = new LinkedHashMap<>();
+
+        if(currentUser.getCartItems() != null) {
+            for (CartItem item: currentUser.getCartItems()) {
+                newCartMap.put(item.getProductSku(), item);
+            }
+        }
+
+        return newCartMap;
     }
 
     public void removeCartItemFromUserCart(CartItem item) {

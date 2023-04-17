@@ -71,7 +71,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void accept(User user) {
                     loggedInUser = user;
-                    Toast.makeText(HomeActivity.this, "Total items in the cart: " + loggedInUser.getCartItems().size(), Toast.LENGTH_SHORT).show();
+                    if(loggedInUser != null) {
+                        Toast.makeText(HomeActivity.this, "Total items in the cart: " + loggedInUser.getCartItems().size(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             };
 

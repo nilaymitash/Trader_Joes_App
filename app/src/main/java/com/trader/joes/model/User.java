@@ -6,8 +6,8 @@ import java.util.List;
 public class User {
 
     private String uID;
-    private List<CartItem> cartItems;
-    private List<PaymentCard> savedCards;
+    private List<CartItem> cartItems = new ArrayList<>();
+    private List<PaymentCard> savedCards = new ArrayList<>();
 
     public String getuID() {
         return uID;
