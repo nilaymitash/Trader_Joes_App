@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import com.trader.joes.R;
 import com.trader.joes.model.Product;
+import com.trader.joes.service.UserDataMaintenanceService;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -77,9 +79,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         public RatingBar mProductRatingBar;
         public TextView mProductRating;
         public TextView mNumOfRatings;
+        public Button mAddToCartBtn;
+        private UserDataMaintenanceService userDataMaintenanceService;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            userDataMaintenanceService = new UserDataMaintenanceService();
+
             mTextViewName = itemView.findViewById(R.id.product_title);
             mTextViewPrice = itemView.findViewById(R.id.product_price);
             //mTextViewDescription = itemView.findViewById(R.id.product_description);
@@ -87,6 +93,16 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             mProductRatingBar = itemView.findViewById(R.id.product_rating_bar);
             mProductRating = itemView.findViewById(R.id.product_rating);
             mNumOfRatings = itemView.findViewById(R.id.num_of_ratings);
+            mAddToCartBtn = itemView.findViewById(R.id.add_to_cart_list_view);
+
+            mAddToCartBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getLayoutPosition();
+                    Product product = products.get(position);
+                    userDataMaintenanceService.addProductToUserCart(product);
+                }
+            });
         }
     }
 

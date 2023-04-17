@@ -3,7 +3,7 @@ package com.trader.joes.model;
 public class CartItem {
 
     private String productSku;
-    private float price;
+    private String price;
     private int qty;
 
     public String getProductSku() {
@@ -14,11 +14,11 @@ public class CartItem {
         this.productSku = productSku;
     }
 
-    public float getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

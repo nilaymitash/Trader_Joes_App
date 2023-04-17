@@ -1,11 +1,12 @@
 package com.trader.joes.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
 
     private String uID;
-    private Cart cart;
+    private List<CartItem> cartItems;
     private List<PaymentCard> savedCards;
 
     public String getuID() {
@@ -16,12 +17,19 @@ public class User {
         this.uID = uID;
     }
 
-    public Cart getCart() {
-        return cart;
+    public List<CartItem> getCartItems() {
+        return cartItems;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    public void addItemToCart(CartItem item) {
+        if (this.cartItems == null) {
+            this.cartItems = new ArrayList<>();
+        }
+        cartItems.add(item);
     }
 
     public List<PaymentCard> getSavedCards() {
