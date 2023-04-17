@@ -17,4 +17,8 @@
         - Save payment cards
         - View purchase history
     - Cart view shows list of items added to the cart and payment option
-    - 
+
+## Video walkthrough
+
+https://user-images.githubusercontent.com/63482714/232570434-ae052aef-3465-48b9-9142-91527bbb36a2.mp4
+
