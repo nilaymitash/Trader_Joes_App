@@ -20,8 +20,10 @@ import com.google.firebase.database.DatabaseError;
 import com.trader.joes.R;
 import com.trader.joes.fragments.ProductListFragment;
 import com.trader.joes.model.Product;
+import com.trader.joes.model.User;
 import com.trader.joes.service.AuthService;
 import com.trader.joes.service.ProductRetrievalService;
+import com.trader.joes.service.UserDataMaintenanceService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +32,11 @@ import java.util.function.Consumer;
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AuthService authService;
-    private ProductRetrievalService productRetrievalService;
+    private UserDataMaintenanceService userDataMaintenanceService;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private NavigationView mNavigationView;
-    private List<Product> allProducts = new ArrayList<>();
+    private User loggedInUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_home);
 
         authService = new AuthService();
+        userDataMaintenanceService = new UserDataMaintenanceService();
 
         mDrawerLayout = findViewById(R.id.nav_drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
@@ -64,7 +67,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onStart();
         FirebaseUser currentUser = authService.getCurrentUser();
         if(currentUser != null){
-            Toast.makeText(this, "Welcome " + currentUser.getUid(), Toast.LENGTH_SHORT).show();
+            Consumer<User> success = new Consumer<User>() {
+                @Override
+                public void accept(User user) {
+                    loggedInUser = user;
+                    Toast.makeText(HomeActivity.this, "Total items in the cart: " + loggedInUser.getCartItems().size(), Toast.LENGTH_SHORT).show();
+                }
+            };
+
+            Consumer<String> failure = new Consumer<String>() {
+                @Override
+                public void accept(String s) {
+                    Toast.makeText(HomeActivity.this, "Oops! Something went wrong fetching user data", Toast.LENGTH_SHORT).show();
+                }
+            };
+            userDataMaintenanceService.getCurrentUserData(currentUser.getUid(), success, failure);
         } else {
             //If the user's session has timed out while on this page, send them back to main screen
             signOutNavigation();
