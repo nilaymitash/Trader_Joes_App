@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -46,6 +45,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
     public void onBindViewHolder(@NonNull CartListAdapter.ViewHolder holder, int position) {
         CartItem item = cartItems.get(position);
 
+        Picasso.get().load(this.productsMap.get(item.getProductSku()).getImgURL()).into(holder.mProductImageView);
         holder.mTextViewName.setText(this.productsMap.get(item.getProductSku()).getProductName());
         holder.mTextViewPrice.setText("$" + this.productsMap.get(item.getProductSku()).getPrice());
         holder.qtyInput.setText(String.valueOf(item.getQty()));
@@ -56,33 +56,77 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
         return cartItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView mTextViewName;
-        public TextView mTextViewPrice;
-        public EditText qtyInput;
-        public Button mdeleteItemBtn;
+        private ImageView mProductImageView;
+        private TextView mTextViewName;
+        private TextView mTextViewPrice;
+        private Button mDecreaseBtn;
+        private TextView qtyInput;
+        private Button mIncreaseBtn;
+        public Button mDeleteItemBtn;
         private UserDataMaintenanceService userDataMaintenanceService;
 
         public ViewHolder(View itemView) {
             super(itemView);
             userDataMaintenanceService = new UserDataMaintenanceService();
 
-            mTextViewName = itemView.findViewById(R.id.product_title);
-            mTextViewPrice = itemView.findViewById(R.id.product_price);
+            mProductImageView = itemView.findViewById(R.id.cart_product_img);
+            mTextViewName = itemView.findViewById(R.id.cart_product_title);
+            mTextViewPrice = itemView.findViewById(R.id.cart_product_price);
+            mDecreaseBtn = itemView.findViewById(R.id.decrement_btn);
             qtyInput = itemView.findViewById(R.id.product_qty_input);
-            mdeleteItemBtn = itemView.findViewById(R.id.delete_cart_item_btn);
+            mIncreaseBtn = itemView.findViewById(R.id.increment_btn);
+            mDeleteItemBtn = itemView.findViewById(R.id.delete_cart_item_btn);
 
-            mdeleteItemBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getLayoutPosition();
-                    CartItem item = cartItems.get(position);
-                    userDataMaintenanceService.removeCartItemFromUserCart(item);
-                    cartItems.remove(position);
-                    notifyDataSetChanged();
-                }
-            });
+            mDecreaseBtn.setOnClickListener(ViewHolder.this);
+            mIncreaseBtn.setOnClickListener(ViewHolder.this);
+            mDeleteItemBtn.setOnClickListener(ViewHolder.this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.delete_cart_item_btn: deleteItem(); break;
+                case R.id.decrement_btn: decreaseQty(); break;
+                case R.id.increment_btn: increaseQty(); break;
+                default: break;
+            }
+        }
+
+        private void deleteItem() {
+            int position = getLayoutPosition();
+            CartItem item = cartItems.get(position);
+            userDataMaintenanceService.removeCartItemFromUserCart(item);
+            cartItems.remove(position);
+            notifyDataSetChanged();
+        }
+
+        private void decreaseQty() {
+            int position = getLayoutPosition();
+            CartItem item = cartItems.get(position);
+            int currentQty = item.getQty();
+            if(currentQty < 2) {
+                userDataMaintenanceService.removeCartItemFromUserCart(item);
+                cartItems.remove(position);
+            } else {
+                item.setQty(item.getQty() - 1);
+                userDataMaintenanceService.updateItemQty(item);
+                cartItems.set(position, item);
+            }
+            notifyDataSetChanged();
+        }
+
+        private void increaseQty() {
+            int position = getLayoutPosition();
+            CartItem item = cartItems.get(position);
+            int currentQty = item.getQty();
+            if(currentQty < 999) {
+                item.setQty(item.getQty() + 1);
+                userDataMaintenanceService.updateItemQty(item);
+                cartItems.set(position, item);
+            }
+            notifyDataSetChanged();
         }
     }
 }

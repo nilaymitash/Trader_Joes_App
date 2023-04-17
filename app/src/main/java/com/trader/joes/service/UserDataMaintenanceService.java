@@ -99,8 +99,15 @@ public class UserDataMaintenanceService {
         }
 
         userDataRef.child("users").child(userId).child("cartItems").setValue(new ArrayList<>(newCartMap.values()));
+    }
 
-        /*this.currentUser.setCartItems(new ArrayList<>(newCartMap.values()));
-        userDataRef.child("users").child(userId).setValue(this.currentUser);*/
+    public void updateItemQty(CartItem item) {
+        FirebaseUser firebaseUser = authService.getCurrentUser();
+        String userId = firebaseUser.getUid();
+
+        Map<String, CartItem> newCartMap = populateMap();
+        newCartMap.put(item.getProductSku(), item);
+
+        userDataRef.child("users").child(userId).child("cartItems").setValue(new ArrayList<>(newCartMap.values()));
     }
 }

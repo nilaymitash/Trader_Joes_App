@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -23,7 +21,6 @@ import com.trader.joes.model.Product;
 import com.trader.joes.service.UserDataMaintenanceService;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,8 +79,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             super(itemView);
             userDataMaintenanceService = new UserDataMaintenanceService();
 
-            mTextViewName = itemView.findViewById(R.id.product_title);
-            mTextViewPrice = itemView.findViewById(R.id.product_price);
+            mTextViewName = itemView.findViewById(R.id.cart_product_title);
+            mTextViewPrice = itemView.findViewById(R.id.cart_product_price);
             //mTextViewDescription = itemView.findViewById(R.id.product_description);
             mProductImage = itemView.findViewById(R.id.product_img_holder);
             mProductRatingBar = itemView.findViewById(R.id.product_rating_bar);

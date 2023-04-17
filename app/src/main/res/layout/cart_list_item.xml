@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -7,47 +7,87 @@
     android:layout_margin="10dp"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/product_title"
-        android:text="Title goes here"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:layout_height="wrap_content">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/product_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/product_title"
-        android:layout_marginTop="15dp"
-        android:text="$99.99"
-        android:textSize="20sp" />
+            <ImageView
+                android:id="@+id/cart_product_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginRight="10dp"/>
 
-    <EditText
-        android:id="@+id/product_qty_input"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_below="@+id/product_title"
-        android:layout_marginLeft="27dp"
-        android:layout_marginTop="8dp"
-        android:layout_toRightOf="@id/product_price"
-        android:inputType="number"
-        android:text="1" />
+            <TextView
+                android:id="@+id/cart_product_title"
+                android:layout_toRightOf="@id/cart_product_img"
+                android:text="Title goes here"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/delete_cart_item_btn"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/product_title"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="73dp"
-        android:layout_marginTop="7dp"
-        android:layout_toRightOf="@id/product_qty_input"
-        app:icon="@drawable/delete_outline"
-        app:iconSize="32dp" />
+            <TextView
+                android:id="@+id/cart_product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cart_product_title"
+                android:layout_toRightOf="@id/cart_product_img"
+                android:layout_marginTop="5dp"
+                android:text="$99.99"
+                android:textSize="20sp" />
 
+            <LinearLayout
+                android:id="@+id/stepper_layout"
+                android:layout_below="@id/cart_product_price"
+                android:layout_toRightOf="@id/cart_product_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-</RelativeLayout>
+                <Button
+                    android:id="@+id/decrement_btn"
+                    android:text="-"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.Material3.Button.IconButton.Outlined"
+                    app:strokeColor="@color/tj_red_primary"/>
+                <TextView
+                    android:id="@+id/product_qty_input"
+                    android:inputType="none"
+                    android:autoSizeMaxTextSize="18sp"
+                    android:text="999"
+                    android:textAlignment="center"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"/>
+                <Button
+                    android:id="@+id/increment_btn"
+                    android:text="+"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.Material3.Button.IconButton.Outlined"
+                    app:strokeColor="@color/tj_red_primary"/>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/delete_cart_item_btn"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cart_product_price"
+                android:layout_alignParentEnd="true"
+                app:icon="@drawable/delete_outline"
+                app:iconSize="32dp" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>
