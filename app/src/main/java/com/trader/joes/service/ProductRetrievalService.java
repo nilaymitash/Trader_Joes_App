@@ -11,17 +11,29 @@ import com.google.gson.Gson;
 import com.trader.joes.model.Product;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class ProductRetrievalService {
 
     private final FirebaseDatabase database;
     private final DatabaseReference productsRef;
+    private Map<String, Product> allProductsMap = new LinkedHashMap<>();
 
     public ProductRetrievalService() {
         database = FirebaseDatabase.getInstance();
         productsRef = database.getReference("products");
+    }
+
+    /**
+     * Used by the Cart fragment
+     * to retrieve product name using SKU
+     * @return
+     */
+    public Map<String, Product> getAllProductsMap() {
+        return this.allProductsMap;
     }
 
     public void getAllProducts(Consumer<List<Product>> success, Consumer<DatabaseError> failure) {
@@ -31,7 +43,9 @@ public class ProductRetrievalService {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Product> allProducts = new ArrayList<>();
                 for(DataSnapshot ds : snapshot.getChildren()) {
-                    allProducts.add(ds.getValue(Product.class));
+                    Product product = ds.getValue(Product.class);
+                    allProducts.add(product);
+                    allProductsMap.put(product.getSku(), product);
                 }
                 success.accept(allProducts);
             }
