@@ -21,6 +21,7 @@ import com.trader.joes.model.Product;
 import com.trader.joes.service.UserDataMaintenanceService;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public ProductListAdapter(List<Product> products) {
         this.products = products;
+    }
+
+    public void filterList(ArrayList<Product> filteredList) {
+        products = filteredList;
+        notifyDataSetChanged();
     }
 
     @NonNull

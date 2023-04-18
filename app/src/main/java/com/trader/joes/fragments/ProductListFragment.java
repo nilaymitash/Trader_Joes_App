@@ -20,6 +20,7 @@ import com.trader.joes.adapter.ProductListAdapter;
 import com.trader.joes.model.Product;
 import com.trader.joes.service.ProductRetrievalService;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -86,10 +87,27 @@ public class ProductListFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                filter(newText);
                 return false;
             }
         });
 
         return view;
+    }
+
+    private void filter(String text) {
+        ArrayList<Product> filteredList = new ArrayList<>();
+
+        for (Product p: allProducts) {
+            if(p.getProductName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(p);
+            }
+        }
+
+        if (filteredList.isEmpty()) {
+            Toast.makeText(getActivity(), "No Products Found..", Toast.LENGTH_SHORT).show();
+        } else {
+            mProductAdapter.filterList(filteredList);
+        }
     }
 }
