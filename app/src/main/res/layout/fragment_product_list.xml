@@ -9,7 +9,9 @@
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
     <ProgressBar
         android:id="@+id/loading_indicator"
@@ -30,7 +32,7 @@
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.Material3.Button.IconButton.Filled"
         app:icon="@drawable/cart_outline"
-        app:iconSize="32dp"
+        app:iconSize="48dp"
         app:strokeColor="@color/tj_red_primary"
         android:id="@+id/floating_cart_btn"
         android:layout_width="wrap_content"
