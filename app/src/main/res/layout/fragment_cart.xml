@@ -17,23 +17,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/your_cart"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold"
-            android:textColor="@color/tj_red_primary"/>
+            android:textColor="@color/tj_red_primary"
+            android:layout_marginBottom="2dp"/>
 
-        <View
-            android:id="@+id/dividerTop"
-            android:layout_below="@+id/cart_heading"
-            android:layout_width="match_parent"
-            android:layout_height="1.5dp"
-            android:background="?android:attr/listDivider" />
 
         <TextView
-            android:id="@+id/subtotal_heading"
+            android:id="@+id/total_items"
             android:layout_below="@+id/cart_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/subtotal"/>
+            android:text="2 items"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/subtotal_heading"
+            android:layout_below="@+id/total_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/subtotal"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/subtotal_amount"
+            android:layout_toRightOf="@+id/subtotal_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/total_items"
+            android:text="$99.99"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
         <Button
             android:id="@+id/proceed_to_checkout_btn"
