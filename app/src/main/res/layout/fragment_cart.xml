@@ -1,17 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ProductListFragment">
 
+    <RelativeLayout
+        android:id="@+id/cart_head_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/cart_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/your_cart"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/tj_red_primary"/>
+
+        <View
+            android:id="@+id/dividerTop"
+            android:layout_below="@+id/cart_heading"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/subtotal_heading"
+            android:layout_below="@+id/cart_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/subtotal"/>
+
+        <Button
+            android:id="@+id/proceed_to_checkout_btn"
+            android:layout_below="@+id/subtotal_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/proceed_to_checkout"
+            android:textAllCaps="false"/>
+
+        <View
+            android:id="@+id/header_divider"
+            android:layout_below="@+id/proceed_to_checkout_btn"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="?android:attr/listDivider" />
+
+    </RelativeLayout>
+
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cartRecyclerView"
+        android:layout_below="@+id/cart_head_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/product_list_item"/>
 
-</FrameLayout>
+</RelativeLayout>
