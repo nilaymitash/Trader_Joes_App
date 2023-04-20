@@ -1,6 +1,7 @@
 package com.trader.joes.fragments;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -79,9 +80,16 @@ public class ProductListFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-
         inflater.inflate(R.menu.toolbar_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.searchOption);
+        MenuItem searchItem = menu.findItem(R.id.search_option);
+        MenuItem barcodeScannerItem = menu.findItem(R.id.barcode_option);
+        initSearchMenu(searchItem);
+        initBarcodeMenu(barcodeScannerItem);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void initSearchMenu(MenuItem searchItem) {
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -95,7 +103,16 @@ public class ProductListFragment extends Fragment {
                 return false;
             }
         });
-        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void initBarcodeMenu(MenuItem barcodeItem) {
+        barcodeItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                Toast.makeText(getActivity(), "Barcode scanner clicked", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
 
     private void fetchCartInfo() {
