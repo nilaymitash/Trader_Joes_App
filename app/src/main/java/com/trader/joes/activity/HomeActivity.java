@@ -2,6 +2,7 @@ package com.trader.joes.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -62,10 +63,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Consumer<User> success = new Consumer<User>() {
                 @Override
                 public void accept(User user) {
-                    loggedInUser = user;
-                    if(loggedInUser != null) {
-                        Toast.makeText(HomeActivity.this, "Total items in the cart: " + loggedInUser.getCartItems().size(), Toast.LENGTH_SHORT).show();
-                    }
+                    Log.d("", "User logged in: " + user.getuID());
                 }
             };
 
