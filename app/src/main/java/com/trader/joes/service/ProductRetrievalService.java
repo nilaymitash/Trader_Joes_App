@@ -8,11 +8,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.trader.joes.model.Product;
+import com.trader.joes.model.ProductFilter;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class ProductRetrievalService {
@@ -41,11 +44,17 @@ public class ProductRetrievalService {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Product> allProducts = new ArrayList<>();
+                Set<String> productCharacteristics = new LinkedHashSet<>();
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     Product product = ds.getValue(Product.class);
                     allProducts.add(product);
                     allProductsMap.put(product.getSku(), product);
+
+                    for(String s: product.getProductCharacteristics()) {
+                        productCharacteristics.add(s);
+                    }
                 }
+                new ProductFilter().setFilterOptions(productCharacteristics);
                 success.accept(allProducts);
             }
 

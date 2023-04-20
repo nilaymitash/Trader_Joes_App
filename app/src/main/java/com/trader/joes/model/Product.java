@@ -1,13 +1,14 @@
 package com.trader.joes.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Product implements Serializable {
 
     private String sku;
     private String productName;
-    private List<String> productCharacteristics;
+    private List<String> productCharacteristics = new ArrayList<>();
     private String price;
     private String imgURL;
     private List<Review> reviews;

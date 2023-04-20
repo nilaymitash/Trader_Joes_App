@@ -3,13 +3,18 @@ package com.trader.joes.fragments;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -67,7 +72,30 @@ public class ProductListFragment extends Fragment {
         mViewCartBtn.getViewTreeObserver().addOnGlobalLayoutListener(new ProductListListener());
         mSearchView.setOnQueryTextListener(new ProductListListener());
 
+        //TODO: Make a decision on showing search option in toolbar
+        //setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.searchOption);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void fetchCartInfo() {
