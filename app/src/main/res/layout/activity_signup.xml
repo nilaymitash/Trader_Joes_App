@@ -77,9 +77,9 @@
             android:text="@string/signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner_button"
-            android:textSize="20sp"
-            android:textAllCaps="false"/>
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            style="@style/Widget.Material3.Button"/>
     </LinearLayout>
 
 </RelativeLayout>

@@ -27,7 +27,7 @@
     <string name="signup_confirm_password_hint">Confirm password</string>
     <string name="passwords_dont_match">Passwords must match.</string>
     <string name="invalid_email">Please enter a valid email.</string>
-    <string name="signup">Sign up</string>
+    <string name="signup">Create account</string>
 
     <!--Navigation drawer-->
     <string name="navigation_drawer_open">Open</string>
@@ -36,8 +36,6 @@
     <!--Product list view-->
     <string name="add_to_cart">Add to cart</string>
     <string name="view_cart_floating_btn">View cart</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--Cart view-->
     <string name="your_cart">Shopping Cart</string>

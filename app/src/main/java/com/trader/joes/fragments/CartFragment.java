@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,8 @@ import com.trader.joes.model.User;
 import com.trader.joes.service.AuthService;
 import com.trader.joes.service.UserDataMaintenanceService;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -24,6 +27,7 @@ public class CartFragment extends Fragment {
 
     private TextView mTotalItems;
     private TextView mSubtotalAmt;
+    private Button mProceedToCheckout; //TODO: Implement
     private CartListAdapter mCartListAdapter;
     private RecyclerView mCartListView;
     private UserDataMaintenanceService userDataMaintenanceService;
@@ -46,7 +50,7 @@ public class CartFragment extends Fragment {
                 List<CartItem> cartItems = user.getCartItems();
                 updateCartHeaders(cartItems);
 
-                mCartListAdapter = new CartListAdapter(cartItems);
+                mCartListAdapter = new CartListAdapter(cartItems, CartFragment.this);
                 mCartListView.setAdapter(mCartListAdapter);
             }
         };
@@ -64,6 +68,8 @@ public class CartFragment extends Fragment {
     private void updateCartHeaders(List<CartItem> cartItems){
         int totalItems = 0;
         float subtotalAmt = 0;
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setMaximumFractionDigits(2);
 
         for(CartItem item: cartItems) {
             totalItems += item.getQty();
@@ -71,6 +77,6 @@ public class CartFragment extends Fragment {
         }
 
         mTotalItems.setText(String.valueOf(totalItems) + " items");
-        mSubtotalAmt.setText("$" + String.valueOf(subtotalAmt));
+        mSubtotalAmt.setText("$" + df.format(subtotalAmt));
     }
 }

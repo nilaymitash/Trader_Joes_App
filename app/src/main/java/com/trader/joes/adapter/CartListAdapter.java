@@ -1,5 +1,6 @@
 package com.trader.joes.adapter;
 
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -10,11 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.squareup.picasso.Picasso;
 import com.trader.joes.R;
+import com.trader.joes.fragments.ProductViewFragment;
 import com.trader.joes.model.CartItem;
 import com.trader.joes.model.Product;
 import com.trader.joes.service.ProductRetrievalService;
@@ -27,11 +30,12 @@ import java.util.Map;
 public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHolder> {
 
     private List<CartItem> cartItems;
-
     private Map<String, Product> productsMap = new LinkedHashMap<>();
+    private Fragment fragment;
 
-    public CartListAdapter(List<CartItem> cartItems) {
+    public CartListAdapter(List<CartItem> cartItems, Fragment fragment) {
         this.cartItems = cartItems;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -86,6 +90,18 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
             mDecreaseBtn.setOnClickListener(ViewHolder.this);
             mIncreaseBtn.setOnClickListener(ViewHolder.this);
             mDeleteItemBtn.setOnClickListener(ViewHolder.this);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("SELECTED_PRODUCT", productsMap.get(cartItems.get(getLayoutPosition()).getProductSku()));
+
+                    ProductViewFragment pvFragment = new ProductViewFragment();
+                    pvFragment.setArguments(bundle);
+                    fragment.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, pvFragment).commit();
+                }
+            });
+
         }
 
         @Override

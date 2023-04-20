@@ -1,8 +1,11 @@
 package com.trader.joes.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +14,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.trader.joes.R;
+import com.trader.joes.fragments.CartFragment;
+import com.trader.joes.fragments.ProductViewFragment;
 import com.trader.joes.model.Product;
 import com.trader.joes.service.UserDataMaintenanceService;
 
@@ -29,10 +37,11 @@ import java.util.Map;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
 
     private List<Product> products;
-    public Map<String, Product> selectedProducts = new LinkedHashMap<>();
+    private Fragment fragment;
 
-    public ProductListAdapter(List<Product> products) {
+    public ProductListAdapter(List<Product> products, Fragment fragment) {
         this.products = products;
+        this.fragment = fragment;
     }
 
     public void filterList(ArrayList<Product> filteredList) {
@@ -100,6 +109,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                     int position = getLayoutPosition();
                     Product product = products.get(position);
                     userDataMaintenanceService.addProductToUserCart(product);
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("SELECTED_PRODUCT", products.get(getLayoutPosition()));
+
+                    ProductViewFragment pvFragment = new ProductViewFragment();
+                    pvFragment.setArguments(bundle);
+                    fragment.getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, pvFragment).commit();
                 }
             });
         }

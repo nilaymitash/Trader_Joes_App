@@ -45,7 +45,7 @@ public class ProductListFragment extends Fragment {
         mSearchView = view.findViewById(R.id.search_bar);
         mViewCartBtn = view.findViewById(R.id.floating_cart_btn);
         mProgressBar = view.findViewById(R.id.loading_indicator);
-        mProductAdapter = new ProductListAdapter(new ArrayList<>()); //initializing adapter
+        mProductAdapter = new ProductListAdapter(new ArrayList<>(), ProductListFragment.this); //initializing adapter
 
         ObjectAnimator animation = ObjectAnimator.ofInt(mProgressBar, "progress", 0, 100);
         animation.setDuration(3000);
@@ -57,7 +57,7 @@ public class ProductListFragment extends Fragment {
             public void accept(List<Product> products) {
                 allProducts = products;
 
-                mProductAdapter = new ProductListAdapter(allProducts);
+                mProductAdapter = new ProductListAdapter(allProducts, ProductListFragment.this);
                 mProductListView = view.findViewById(R.id.recyclerView);
                 mProductListView.setAdapter(mProductAdapter);
                 mProgressBar.setVisibility(View.GONE);

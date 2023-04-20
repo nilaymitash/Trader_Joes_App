@@ -1,8 +1,9 @@
 package com.trader.joes.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Product {
+public class Product implements Serializable {
 
     private String sku;
     private String productName;

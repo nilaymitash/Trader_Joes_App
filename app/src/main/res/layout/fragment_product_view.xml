@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".fragments.ProductViewFragment"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/product_title_label"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Product title goes here"
+        android:textSize="18sp"/>
+
+    <RatingBar
+        android:id="@+id/product_rating_bar"
+        android:layout_toStartOf="@+id/num_of_ratings"
+        android:layout_above="@+id/product_img_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:rating="4.5"
+        style="?android:attr/ratingBarStyleSmall"
+        android:progressTint="@color/tj_red_primary"/>
+
+    <TextView
+        android:id="@+id/num_of_ratings"
+        android:text="(100)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/product_img_holder"
+        android:textSize="12sp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"/>
+
+    <ImageView
+        android:id="@+id/product_img_holder"
+        android:layout_below="@id/product_title_label"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"/>
+
+    <TextView
+        android:id="@+id/product_price_label"
+        android:layout_below="@+id/product_img_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="$99.99"/>
+
+    <!--<TextView
+        android:id="@+id/product_description"
+        android:layout_below="@id/product_price_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product description goes here"/>-->
+
+    <Button
+        android:id="@+id/add_to_cart_product_page"
+        android:layout_below="@id/product_price_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_cart"
+        android:textSize="18sp"
+        style="@style/Widget.Material3.Button"/>
+
+    <Button
+        android:id="@+id/view_cart_product_page"
+        android:layout_below="@id/add_to_cart_product_page"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/view_cart_floating_btn"
+        android:textSize="18sp"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        app:strokeColor="@color/tj_red_primary"/>
+
+</RelativeLayout>
