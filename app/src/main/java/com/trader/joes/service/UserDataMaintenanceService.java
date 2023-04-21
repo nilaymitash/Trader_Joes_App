@@ -17,6 +17,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/**
+ * This service is responsible for handling
+ * all User data related transactions.
+ */
 public class UserDataMaintenanceService {
 
     private AuthService authService;
@@ -35,23 +39,37 @@ public class UserDataMaintenanceService {
         return currentUser;
     }
 
+    /**
+     * This method fetches the data pertaining to the user who is currently logged in
+     * Requires the caller to provide 1 success and 1 failure callback function.
+     * @param userId
+     * @param successCallback
+     * @param failureCallback
+     */
     public void getCurrentUserData(String userId, Consumer<User> successCallback, Consumer<String> failureCallback) {
         userDataRef.child("users").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
+                //execute success callback function provided by the caller
                 successCallback.accept(user);
                 currentUser = user;
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                //execute failure callback function provided by the caller
                 failureCallback.accept(error.getMessage());
             }
         });
     }
 
+    /**
+     * Adds a given product to the user's cart
+     * @param product
+     */
     public void addProductToUserCart(Product product) {
+        //Get currently logged in user via Auth service
         FirebaseUser firebaseUser = authService.getCurrentUser();
         String userId = firebaseUser.getUid();
 
@@ -60,7 +78,10 @@ public class UserDataMaintenanceService {
             currentUser.setuID(userId);
         }
 
+        //Convert list of cart items to a map
         Map<String, CartItem> newCartMap = populateMap();
+
+        //Update cart - either add a new product or update a product's quantity
         if(currentUser.getCartItems() != null) {
             if(newCartMap.containsKey(product.getSku())) {
                 newCartMap.get(product.getSku()).setQty(newCartMap.get(product.getSku()).getQty() + 1);
@@ -73,10 +94,19 @@ public class UserDataMaintenanceService {
             }
         }
 
+        //update the current user object in memory
         this.currentUser.setCartItems(new ArrayList<>(newCartMap.values()));
+
+        //saves/updates current user's data
         userDataRef.child("users").child(userId).setValue(this.currentUser);
     }
 
+    /**
+     * This method acts as a transformer
+     * It transforms current Cart items into a Map
+     * So that its easier to update quantities of items if needed
+     * @return
+     */
     private Map<String, CartItem> populateMap() {
         Map<String, CartItem> newCartMap = new LinkedHashMap<>();
 
@@ -89,6 +119,10 @@ public class UserDataMaintenanceService {
         return newCartMap;
     }
 
+    /**
+     * This method removes an item from the cart
+     * @param item
+     */
     public void removeCartItemFromUserCart(CartItem item) {
         FirebaseUser firebaseUser = authService.getCurrentUser();
         String userId = firebaseUser.getUid();
@@ -101,6 +135,10 @@ public class UserDataMaintenanceService {
         userDataRef.child("users").child(userId).child("cartItems").setValue(new ArrayList<>(newCartMap.values()));
     }
 
+    /**
+     * This method updates the quantity of a product that is already in the cart.
+     * @param item
+     */
     public void updateItemQty(CartItem item) {
         FirebaseUser firebaseUser = authService.getCurrentUser();
         String userId = firebaseUser.getUid();

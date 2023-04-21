@@ -45,21 +45,17 @@ public class SignupActivity extends AppCompatActivity {
         mEmailValidationLabel = findViewById(R.id.email_validation_msg);
         mPasswordValidationLabel = findViewById(R.id.password_validation_msg);
 
+        /**
+         * TextChangedListener is used here to validate
+         * the email and password input in real time
+         * as the user types the information
+         */
         mEmailInput.addTextChangedListener(new SignupActivityListener(mEmailInput));
         mPasswordInput.addTextChangedListener(new SignupActivityListener(mPasswordInput));
         mConfirmPasswordInput.addTextChangedListener(new SignupActivityListener(mConfirmPasswordInput));
 
         mBackButton.setOnClickListener(new SignupActivityListener());
         mSignupButton.setOnClickListener(new SignupActivityListener());
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //if the user is already logged in, navigate to home page
-        if(authService.isUserLoggedIn()) {
-            startActivity(new Intent(SignupActivity.this, HomeActivity.class));
-        }
     }
 
     class SignupActivityListener implements View.OnClickListener, TextWatcher {
@@ -106,6 +102,11 @@ public class SignupActivity extends AppCompatActivity {
             //do nothing
         }
 
+        /**
+         * This TextWatcher method is used to validate user input for email and password.
+         * This method gets called everytime the text changes in the input
+         * @param editable
+         */
         @Override
         public void afterTextChanged(Editable editable) {
             switch (mEditText.getId()) {
@@ -143,6 +144,10 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         private void createAccount(String email, String password) {
+            /**
+             * This callback function is passed in to be executed when
+             * account creation is successful
+             */
             Consumer<Void> signupSuccessConsumer = new Consumer<Void>() {
                 @Override
                 public void accept(Void unused) {
@@ -150,6 +155,10 @@ public class SignupActivity extends AppCompatActivity {
                 }
             };
 
+            /**
+             * This callback function is passed in to be executed when
+             * account creation fails.
+             */
             Consumer<String> signupFailureConsumer = new Consumer<String>() {
                 @Override
                 public void accept(String s) {

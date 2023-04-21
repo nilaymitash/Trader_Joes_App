@@ -11,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.trader.joes.R;
 
+/**
+ * This is the first screen that loads when app starts.
+ * Simple shows an Image and a Circular progress bar
+ */
 public class SplashScreenActivity extends AppCompatActivity {
 
     private ProgressBar mProgressBar;
@@ -21,20 +25,26 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         mProgressBar = findViewById(R.id.splash_progress_bar);
-
-        ObjectAnimator animation = ObjectAnimator.ofInt(mProgressBar, "progress", 0, 100);
-        animation.setDuration(4000);
-        animation.setInterpolator(new DecelerateInterpolator());
-        animation.start();
+        animateProgressBar();
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                /** Start the next activity after a delay */
+                /** Starts the MainActivity after a 3 second delay */
                 Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
-        }, 4000);
+        }, 3000);
+    }
+
+    /**
+     * This method animates the ProgressBar on screen for 3 seconds
+     */
+    private void animateProgressBar() {
+        ObjectAnimator animation = ObjectAnimator.ofInt(mProgressBar, "progress", 0, 100);
+        animation.setDuration(3000);
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.start();
     }
 }

@@ -38,6 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ *
+ */
 public class ProductListFragment extends Fragment {
 
     private SearchView mSearchView;
@@ -73,10 +76,11 @@ public class ProductListFragment extends Fragment {
         mSearchView.setOnQueryTextListener(new ProductListListener());
 
         //TODO: Make a decision on showing search option in toolbar
-        //setHasOptionsMenu(true);
+        //setHasOptionsMenu(true); //To be ignored - future implementation
         return view;
     }
 
+    //To be ignored - future implementation
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_menu, menu);
@@ -88,6 +92,7 @@ public class ProductListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    //To be ignored - future implementation
     private void initSearchMenu(MenuItem searchItem) {
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -104,6 +109,7 @@ public class ProductListFragment extends Fragment {
         });
     }
 
+    //To be ignored - future implementation
     private void initBarcodeMenu(MenuItem barcodeItem) {
         barcodeItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -115,6 +121,7 @@ public class ProductListFragment extends Fragment {
     }
 
     private void fetchCartInfo() {
+        //Success callback function for fetching user's cart data
         Consumer<User> success = new Consumer<User>() {
             @Override
             public void accept(User user) {
@@ -129,13 +136,16 @@ public class ProductListFragment extends Fragment {
                 }
             }
         };
-        
+
+        //Failure callback function for fetching user's cart data
         Consumer<String> failure = new Consumer<String>() {
             @Override
             public void accept(String s) {
                 Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
             }
         };
+
+        //Fetch current user's data from real time database
         userDataMaintenanceService.getCurrentUserData(new AuthService().getCurrentUser().getUid(), success, failure);
     }
 
@@ -147,6 +157,7 @@ public class ProductListFragment extends Fragment {
     }
 
     private void fetchProductList(View view) {
+        //Success callback function for fetching product list
         Consumer<List<Product>> productConsumer = new Consumer<List<Product>>() {
             @Override
             public void accept(List<Product> products) {
@@ -159,15 +170,22 @@ public class ProductListFragment extends Fragment {
             }
         };
 
+        //Failure callback function for fetching user's cart data
         Consumer<DatabaseError> dbErrorConsumer = new Consumer<DatabaseError>() {
             @Override
             public void accept(DatabaseError databaseError) {
                 Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         };
+
+        //Fetch all products from real time database
         productRetrievalService.getAllProducts(productConsumer, dbErrorConsumer);
     }
 
+    /**
+     * This method is used by the search bar to filter product list
+     * @param text
+     */
     private void filter(String text) {
         ArrayList<Product> filteredList = new ArrayList<>();
 
@@ -186,11 +204,18 @@ public class ProductListFragment extends Fragment {
 
     private class ProductListListener implements SearchView.OnQueryTextListener, ViewTreeObserver.OnGlobalLayoutListener, View.OnClickListener {
 
+        /**
+         * This method is invoked when the user clicks on the Cart floating button
+         * @param view
+         */
         @Override
         public void onClick(View view) {
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CartFragment()).commit();
         }
 
+        /**
+         * This method populates the badge on Cart floating button to show the number of items in the cart
+         */
         @OptIn(markerClass = ExperimentalBadgeUtils.class)
         @Override
         public void onGlobalLayout() {
@@ -212,6 +237,12 @@ public class ProductListFragment extends Fragment {
             return false;
         }
 
+        /**
+         * This method is invoked when the user starts typing in the search bar
+         * @param newText the new content of the query text field.
+         *
+         * @return
+         */
         @Override
         public boolean onQueryTextChange(String newText) {
             filter(newText);

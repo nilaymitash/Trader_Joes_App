@@ -1,7 +1,5 @@
 package com.trader.joes.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -14,26 +12,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.trader.joes.R;
-import com.trader.joes.fragments.CartFragment;
 import com.trader.joes.fragments.ProductViewFragment;
 import com.trader.joes.model.Product;
 import com.trader.joes.service.UserDataMaintenanceService;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Adapter for Product list RecyclerView
+ */
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
 
     private List<Product> products;
@@ -62,12 +58,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         Product product = products.get(position);
 
         //Download product image:
-        //new DownloadImageTask(holder.mProductImage).execute(product.getImgURL());
         Picasso.get().load(product.getImgURL()).into(holder.mProductImage);
 
         holder.mTextViewName.setText(String.valueOf(product.getProductName()));
         holder.mTextViewPrice.setText("$" + product.getPrice());
-        //holder.mTextViewDescription.setText(Utility.truncateString(product.getDescription(), 160));
         holder.mProductRating.setText(String.valueOf(product.getRating()));
         holder.mProductRatingBar.setRating(product.getRating());
         holder.mNumOfRatings.setText("(" + product.getNumOfRatings() + ")");
@@ -82,7 +76,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         public TextView mTextViewName;
         public TextView mTextViewPrice;
-        public TextView mTextViewDescription;
         public ImageView mProductImage;
         public RatingBar mProductRatingBar;
         public TextView mProductRating;
@@ -96,13 +89,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
             mTextViewName = itemView.findViewById(R.id.cart_product_title);
             mTextViewPrice = itemView.findViewById(R.id.cart_product_price);
-            //mTextViewDescription = itemView.findViewById(R.id.product_description);
             mProductImage = itemView.findViewById(R.id.product_img_holder);
             mProductRatingBar = itemView.findViewById(R.id.product_rating_bar);
             mProductRating = itemView.findViewById(R.id.product_rating);
             mNumOfRatings = itemView.findViewById(R.id.num_of_ratings);
             mAddToCartBtn = itemView.findViewById(R.id.add_to_cart_list_view);
 
+            /**
+             * On click of add to cart button, add the item to the user's cart
+             */
             mAddToCartBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -112,6 +107,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 }
             });
 
+            /**
+             * On click of entire card/item view, navigate the user to the product page
+             */
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -127,6 +125,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     /**
+     * @Deprecated
      * This async download task has been replace by Picasso library.
      */
     @Deprecated

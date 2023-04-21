@@ -63,13 +63,22 @@ public class LoginActivity extends AppCompatActivity {
         private void login() {
             String email = mUsernameInput.getText().toString();
             String password = mPasswordInput.getText().toString();
+
+            /**
+             * Success callback function for successful login
+             */
+            Consumer navigateToProductSearch = (Object object) -> {
+                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            };
+
+            /**
+             * Auth service call to log in
+             * param 4 is success callback function
+             * param 5 is failure callback function as a lambda
+             */
             authService.signIn(email, password, LoginActivity.this, navigateToProductSearch, (Object obj) -> {mValidationLabel.setVisibility(View.VISIBLE);});
         }
-
-        Consumer navigateToProductSearch = (Object object) -> {
-            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-        };
 
         private void navigateBack() {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));

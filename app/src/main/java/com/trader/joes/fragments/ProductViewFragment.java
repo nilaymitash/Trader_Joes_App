@@ -17,6 +17,9 @@ import com.trader.joes.R;
 import com.trader.joes.model.Product;
 import com.trader.joes.service.UserDataMaintenanceService;
 
+/**
+ * This fragment is to display 1 product information at a time.
+ */
 public class ProductViewFragment extends Fragment {
 
     private TextView mProductNameView;
@@ -55,12 +58,14 @@ public class ProductViewFragment extends Fragment {
         mAddToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //add product to the cart
                 userDataMaintenanceService.addProductToUserCart(product);
             }
         });
         mViewCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //navigate user to Cart view on click of "View cart" button
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CartFragment()).commit();
             }
         });

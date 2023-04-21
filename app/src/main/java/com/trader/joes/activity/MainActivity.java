@@ -14,6 +14,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.trader.joes.R;
 
+/**
+ * This main activity presents the user with the following options:
+ * Login
+ * Create account
+ * Continue with Google
+ */
 public class MainActivity extends AppCompatActivity {
 
     private Button mLoginBtn;

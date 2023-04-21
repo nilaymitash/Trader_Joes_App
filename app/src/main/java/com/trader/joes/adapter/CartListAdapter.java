@@ -27,6 +27,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Adapter for Cart's RecyclerView
+ */
 public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHolder> {
 
     private List<CartItem> cartItems;
@@ -90,6 +93,11 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
             mDecreaseBtn.setOnClickListener(ViewHolder.this);
             mIncreaseBtn.setOnClickListener(ViewHolder.this);
             mDeleteItemBtn.setOnClickListener(ViewHolder.this);
+
+            /**
+             * This listener is used to navigate the user from cart
+             * to a particular product page when they click on the item
+             */
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -104,6 +112,10 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
 
         }
 
+        /**
+         * This onClick method is used to increase qty, decrease qty, or delete item from the cart
+         * @param view
+         */
         @Override
         public void onClick(View view) {
             switch (view.getId()) {

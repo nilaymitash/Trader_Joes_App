@@ -12,6 +12,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.function.Consumer;
 
+/**
+ * AuthService is responsible for handling all
+ * Authentication and Authorization calls to Firebase.
+ */
 public class AuthService {
 
     private final FirebaseAuth mAuth;
@@ -28,34 +32,59 @@ public class AuthService {
         return mAuth.getCurrentUser();
     }
 
+    /**
+     * This method creates an account using email and password.
+     * Requires the caller to provide 1 success callback function and 1 failure callback function
+     * @param email
+     * @param password
+     * @param activity
+     * @param successCallback
+     * @param failureCallback
+     */
     public void createAccount(String email, String password, Activity activity, Consumer<Void> successCallback, Consumer<String> failureCallback) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
+                            //Call the success callback function provided by the caller
                             successCallback.accept(null);
                         } else {
+                            //Call the failure callback function provided by the caller
                             failureCallback.accept(task.getException().getMessage());
                         }
                     }
                 });
     }
 
+    /**
+     * This method is used to log in using email and password.
+     * Requires the caller to provide 1 success callback function and 1 failure callback function
+     * @param email
+     * @param password
+     * @param activity
+     * @param successCallback
+     * @param failureCallback
+     */
     public void signIn(String email, String password, Activity activity, Consumer successCallback, Consumer failureCallback) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            //Call the success callback function provided by the caller
                             successCallback.accept(null);
                         } else {
+                            //Call the failure callback function provided by the caller
                             failureCallback.accept(task.getException().getMessage());
                         }
                     }
                 });
     }
 
+    /**
+     * This method is used to log a user out.
+     */
     public void signOut() {
         mAuth.signOut();
     }

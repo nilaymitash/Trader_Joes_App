@@ -2,7 +2,6 @@ package com.trader.joes.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -13,23 +12,17 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseUser;
 import com.trader.joes.R;
 import com.trader.joes.fragments.ProductListFragment;
 import com.trader.joes.model.User;
 import com.trader.joes.service.AuthService;
-import com.trader.joes.service.UserDataMaintenanceService;
-
-import java.util.function.Consumer;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AuthService authService;
-    private UserDataMaintenanceService userDataMaintenanceService;
-    private DrawerLayout mDrawerLayout;
+    private DrawerLayout mHomePageLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private NavigationView mNavigationView;
-    private User loggedInUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,47 +30,32 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_home);
 
         authService = new AuthService();
-        userDataMaintenanceService = new UserDataMaintenanceService();
 
-        mDrawerLayout = findViewById(R.id.nav_drawer_layout);
+        mHomePageLayout = findViewById(R.id.home_page_layout);
         mNavigationView = findViewById(R.id.nav_view);
+
+        //set the item selected listener to the navigation view component
         mNavigationView.setNavigationItemSelectedListener(this);
+
+        //Initializing ActionBarDrawerToggle which will be responsible for opening and closing the nav view
         mActionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, // Activity / Context
-                mDrawerLayout, // DrawerLayout
+                mHomePageLayout, // Drawer layout
                 R.string.navigation_drawer_open, // String to open
                 R.string.navigation_drawer_close // String to close
         );
-        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
+
+        //Adding the drawer toggle to the home page
+        mHomePageLayout.addDrawerListener(mActionBarDrawerToggle);
+
+        //Syncs the drawer state with home page layout
         mActionBarDrawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //to always show action bar menu icon
+
+        //to always show action bar menu icon
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new ProductListFragment()).commit();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = authService.getCurrentUser();
-        if(currentUser != null){
-            Consumer<User> success = new Consumer<User>() {
-                @Override
-                public void accept(User user) {
-                    Log.d("", "User logged in: " + user.getuID());
-                }
-            };
-
-            Consumer<String> failure = new Consumer<String>() {
-                @Override
-                public void accept(String s) {
-                    Toast.makeText(HomeActivity.this, "Oops! Something went wrong fetching user data", Toast.LENGTH_SHORT).show();
-                }
-            };
-            userDataMaintenanceService.getCurrentUserData(currentUser.getUid(), success, failure);
-        } else {
-            //If the user's session has timed out while on this page, send them back to main screen
-            signOutNavigation();
-        }
     }
 
     private void signOutNavigation() {
@@ -103,8 +81,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             default: break;
         }
 
-        /** Close the navigation drawer */
-        mDrawerLayout.closeDrawer(GravityCompat.START);
+        /** Close the navigation drawer once a nav item is clicked */
+        mHomePageLayout.closeDrawer(GravityCompat.START);
 
         return true;
     }

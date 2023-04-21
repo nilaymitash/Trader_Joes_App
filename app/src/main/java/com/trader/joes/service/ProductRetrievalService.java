@@ -18,6 +18,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
+/**
+ * This service is responsible for handling any data manipulation related to the products
+ */
 public class ProductRetrievalService {
 
     private final FirebaseDatabase database;
@@ -38,13 +41,23 @@ public class ProductRetrievalService {
         return allProductsMap;
     }
 
+    /**
+     * This method fetches all products from firebase
+     * It requires the caller to provide 1 success and 1 failure callback function
+     * @param success
+     * @param failure
+     */
     public void getAllProducts(Consumer<List<Product>> success, Consumer<DatabaseError> failure) {
 
         productsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //This list contains all products
                 List<Product> allProducts = new ArrayList<>();
+
+                //Product characteristics will be used for data filtering (future capability)
                 Set<String> productCharacteristics = new LinkedHashSet<>();
+
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     Product product = ds.getValue(Product.class);
                     allProducts.add(product);
@@ -55,11 +68,14 @@ public class ProductRetrievalService {
                     }
                 }
                 new ProductFilter().setFilterOptions(productCharacteristics);
+
+                //Execute success callback function provided by the caller
                 success.accept(allProducts);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                //Execute failure callback function provided by the caller
                 failure.accept(error);
             }
         });

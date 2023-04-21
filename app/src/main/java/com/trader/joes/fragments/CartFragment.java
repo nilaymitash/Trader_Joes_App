@@ -23,6 +23,9 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Cart fragment displays user's shopping cart
+ */
 public class CartFragment extends Fragment {
 
     private TextView mTotalItems;
@@ -44,6 +47,9 @@ public class CartFragment extends Fragment {
 
         userDataMaintenanceService = new UserDataMaintenanceService();
 
+        /**
+         * success callback function for fetching user's data
+         */
         Consumer<User> successConsumer = new Consumer<User>() {
             @Override
             public void accept(User user) {
@@ -54,17 +60,27 @@ public class CartFragment extends Fragment {
                 mCartListView.setAdapter(mCartListAdapter);
             }
         };
+
+        /**
+         * failure callback function for fetching user's data
+         */
         Consumer<String> failureConsumer = new Consumer<String>() {
             @Override
             public void accept(String unused) {
                 Toast.makeText(getActivity(), "DB connection failed!", Toast.LENGTH_SHORT).show();
             }
         };
+
+        //get user's cart data on create of the fragment
         userDataMaintenanceService.getCurrentUserData(new AuthService().getCurrentUser().getUid(), successConsumer, failureConsumer);
 
         return view;
     }
 
+    /**
+     * This method populates data for Cart header
+     * @param cartItems
+     */
     private void updateCartHeaders(List<CartItem> cartItems){
         int totalItems = 0;
         float subtotalAmt = 0;
@@ -76,7 +92,7 @@ public class CartFragment extends Fragment {
             subtotalAmt += Float.parseFloat(item.getPrice())*item.getQty();
         }
 
-        mTotalItems.setText(String.valueOf(totalItems) + " items");
+        mTotalItems.setText(totalItems + " items");
         mSubtotalAmt.setText("$" + df.format(subtotalAmt));
     }
 }
