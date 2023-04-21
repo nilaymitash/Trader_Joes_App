@@ -1,7 +1,6 @@
 package com.trader.joes.fragments;
 
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -82,9 +81,9 @@ public class ProductListFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.search_option);
-        MenuItem barcodeScannerItem = menu.findItem(R.id.barcode_option);
+        //MenuItem barcodeScannerItem = menu.findItem(R.id.barcode_option);
         initSearchMenu(searchItem);
-        initBarcodeMenu(barcodeScannerItem);
+        //initBarcodeMenu(barcodeScannerItem);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
