@@ -45,13 +45,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView.setNavigationItemSelectedListener(this);
 
         mBottomNavigationView.setOnItemSelectedListener(this);
-        //using reselected listener to avoid reloading the fragments
-        mBottomNavigationView.setOnItemReselectedListener(new NavigationBarView.OnItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
-                //do nothing - don't reload the fragment
-            }
-        });
 
         //Initializing ActionBarDrawerToggle which will be responsible for opening and closing the nav view
         mActionBarDrawerToggle = new ActionBarDrawerToggle(

@@ -10,10 +10,4 @@
         app:showAsAction="always"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
-    <!--<item
-        android:id="@+id/barcode_option"
-        android:title="Scan barcode"
-        android:icon="@drawable/barcode_scan"
-        android:iconTint="@color/white"
-        app:showAsAction="always"/>-->
 </menu>

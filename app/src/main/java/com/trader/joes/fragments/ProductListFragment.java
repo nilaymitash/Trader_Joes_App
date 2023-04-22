@@ -43,7 +43,6 @@ import java.util.function.Consumer;
  */
 public class ProductListFragment extends Fragment {
 
-    private SearchView mSearchView;
     private ProgressBar mProgressBar;
     private RecyclerView mProductListView;
     private FloatingActionButton mViewCartBtn;
@@ -62,7 +61,6 @@ public class ProductListFragment extends Fragment {
 
         productRetrievalService = new ProductRetrievalService();
         userDataMaintenanceService = new UserDataMaintenanceService();
-        mSearchView = view.findViewById(R.id.search_bar);
         mViewCartBtn = view.findViewById(R.id.floating_cart_btn);
         mProgressBar = view.findViewById(R.id.loading_indicator);
         mProductAdapter = new ProductListAdapter(new ArrayList<>(), ProductListFragment.this); //initializing adapter
@@ -73,26 +71,30 @@ public class ProductListFragment extends Fragment {
 
         mViewCartBtn.setOnClickListener(new ProductListListener());
         mViewCartBtn.getViewTreeObserver().addOnGlobalLayoutListener(new ProductListListener());
-        mSearchView.setOnQueryTextListener(new ProductListListener());
 
-        //TODO: Make a decision on showing search option in toolbar
-        //setHasOptionsMenu(true); //To be ignored - future implementation
+        setHasOptionsMenu(true); //To be ignored - future implementation
         return view;
     }
 
-    //To be ignored - future implementation
+    /**
+     * Creates the toolbar menu option views
+     * @param menu The options menu in which you place your items.
+     *
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.search_option);
-        //MenuItem barcodeScannerItem = menu.findItem(R.id.barcode_option);
         initSearchMenu(searchItem);
-        //initBarcodeMenu(barcodeScannerItem);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    //To be ignored - future implementation
+    /**
+     * Creates the search menu
+     * @param searchItem
+     */
     private void initSearchMenu(MenuItem searchItem) {
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -104,17 +106,6 @@ public class ProductListFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 filter(newText);
-                return false;
-            }
-        });
-    }
-
-    //To be ignored - future implementation
-    private void initBarcodeMenu(MenuItem barcodeItem) {
-        barcodeItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-                Toast.makeText(getActivity(), "Barcode scanner clicked", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -195,7 +186,7 @@ public class ProductListFragment extends Fragment {
             }
         }
 
-        if (filteredList.isEmpty()) {
+        if (!filteredList.isEmpty()) {
             Toast.makeText(getActivity(), "No Products Found..", Toast.LENGTH_SHORT).show();
         } else {
             mProductAdapter.filterList(filteredList);
