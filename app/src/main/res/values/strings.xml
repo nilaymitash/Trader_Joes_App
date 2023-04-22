@@ -41,4 +41,13 @@
     <string name="your_cart">Shopping Cart</string>
     <string name="subtotal">Subtotal</string>
     <string name="proceed_to_checkout">Proceed to checkout</string>
+
+    <!--Account page-->
+    <string name="personal_info">Personal info</string>
+    <string name="payment_info">Payment info</string>
+    <string name="no_payment_info_msg">No saved cards.</string>
+    <string name="display_name">Name:</string>
+    <string name="display_email">Email:</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>
