@@ -186,7 +186,7 @@ public class ProductListFragment extends Fragment {
             }
         }
 
-        if (!filteredList.isEmpty()) {
+        if (filteredList.isEmpty()) {
             Toast.makeText(getActivity(), "No Products Found..", Toast.LENGTH_SHORT).show();
         } else {
             mProductAdapter.filterList(filteredList);
