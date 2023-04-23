@@ -46,10 +46,8 @@
     <string name="mm">MM</string>
     <string name="yyyy">YYYY</string>
     <string name="cvv">CVV</string>
-    <string name="zip">ZIP code</string>
     <string name="confirm_payment">Confirm payment</string>
     <string name="back_to_cart">Back to cart</string>
-
 
     <!--Account page-->
     <string name="personal_info">Personal info</string>
@@ -59,4 +57,7 @@
     <string name="display_email">Email:</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+
+    <!--Find a store-->
+    <string name="zip">Enter a ZIP code...</string>
 </resources>
