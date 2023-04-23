@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.trader.joes.R;
 import com.trader.joes.adapter.CartListAdapter;
 import com.trader.joes.model.CartItem;
@@ -28,12 +29,16 @@ import java.util.function.Consumer;
  */
 public class CartFragment extends Fragment {
 
+    private UserDataMaintenanceService userDataMaintenanceService;
+    private CartListAdapter mCartListAdapter;
     private TextView mTotalItems;
     private TextView mSubtotalAmt;
-    private Button mProceedToCheckout; //TODO: Implement
-    private CartListAdapter mCartListAdapter;
+    private Button mProceedToCheckoutBtn;
+    private Button mConfirmPaymentBtn;
+    private Button mBackToCartBtn;
     private RecyclerView mCartListView;
-    private UserDataMaintenanceService userDataMaintenanceService;
+    private View mPaymentLayout;
+    private TextInputEditText mCardholderNameInput;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,11 +46,20 @@ public class CartFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
+        userDataMaintenanceService = new UserDataMaintenanceService();
         mTotalItems = view.findViewById(R.id.total_items);
         mSubtotalAmt = view.findViewById(R.id.subtotal_amount);
         mCartListView = view.findViewById(R.id.cartRecyclerView);
+        mProceedToCheckoutBtn = view.findViewById(R.id.proceed_to_checkout_btn);
+        mConfirmPaymentBtn = view.findViewById(R.id.confirm_payment);
+        mBackToCartBtn = view.findViewById(R.id.back_to_cart);
+        mPaymentLayout = view.findViewById(R.id.payment_layout);
+        mCardholderNameInput = view.findViewById(R.id.card_holder_input);
 
-        userDataMaintenanceService = new UserDataMaintenanceService();
+        //add on click listeners
+        mProceedToCheckoutBtn.setOnClickListener(new CartFragmentListener());
+        mConfirmPaymentBtn.setOnClickListener(new CartFragmentListener());
+        mBackToCartBtn.setOnClickListener(new CartFragmentListener());
 
         /**
          * success callback function for fetching user's data
@@ -94,5 +108,47 @@ public class CartFragment extends Fragment {
 
         mTotalItems.setText(totalItems + " items");
         mSubtotalAmt.setText("$" + df.format(subtotalAmt));
+    }
+
+    private class CartFragmentListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.proceed_to_checkout_btn: proceedToCheckout();
+                break;
+                case R.id.confirm_payment: confirmPayment();
+                break;
+                case R.id.back_to_cart: backToCart();
+                break;
+                default: break;
+            }
+        }
+
+        private void proceedToCheckout() {
+            //hide checkout btn, and cart items
+            mProceedToCheckoutBtn.setVisibility(View.GONE);
+            mCartListView.setVisibility(View.GONE);
+
+            //show payment layout, and payment buttons
+            mPaymentLayout.setVisibility(View.VISIBLE);
+            mConfirmPaymentBtn.setVisibility(View.VISIBLE);
+            mBackToCartBtn.setVisibility(View.VISIBLE);
+        }
+
+        private void confirmPayment() {
+
+        }
+
+        private void backToCart() {
+            //show checkout btn, and cart items
+            mProceedToCheckoutBtn.setVisibility(View.VISIBLE);
+            mCartListView.setVisibility(View.VISIBLE);
+
+            //hide payment layout, and payment buttons
+            mPaymentLayout.setVisibility(View.GONE);
+            mConfirmPaymentBtn.setVisibility(View.GONE);
+            mBackToCartBtn.setVisibility(View.GONE);
+        }
     }
 }

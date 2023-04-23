@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -41,9 +42,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView = findViewById(R.id.nav_view);
         mBottomNavigationView = findViewById(R.id.bottom_nav_view);
 
-        //set the item selected listener to the navigation view component
+        //set the item selected listener to the navigation view components
         mNavigationView.setNavigationItemSelectedListener(this);
-
         mBottomNavigationView.setOnItemSelectedListener(this);
 
         //Initializing ActionBarDrawerToggle which will be responsible for opening and closing the nav view

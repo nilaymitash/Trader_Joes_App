@@ -52,13 +52,15 @@
             android:textSize="18sp"
             android:textStyle="bold"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/proceed_to_checkout_btn"
-            android:layout_below="@+id/subtotal_heading"
+            android:layout_below="@id/subtotal_heading"
+            android:text="@string/proceed_to_checkout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/proceed_to_checkout"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+            style="@style/Widget.Material3.Button"
+            android:textSize="16sp"/>
 
         <View
             android:id="@+id/header_divider"
@@ -69,11 +71,44 @@
 
     </RelativeLayout>
 
+    <include
+        android:id="@+id/payment_layout"
+        android:layout_below="@id/cart_head_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        layout="@layout/payment_input_view"
+        android:visibility="gone"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/confirm_payment"
+        android:layout_below="@id/payment_layout"
+        android:text="@string/confirm_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        style="@style/Widget.Material3.Button"
+        android:textSize="16sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/back_to_cart"
+        android:layout_below="@id/confirm_payment"
+        android:text="@string/back_to_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        app:strokeColor="@color/tj_red_primary"
+        android:textSize="16sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cartRecyclerView"
-        android:layout_below="@+id/cart_head_layout"
+        android:layout_below="@+id/back_to_cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
