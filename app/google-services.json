@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "925556898251",
+    "firebase_url": "https://trader-joes-app-default-rtdb.firebaseio.com",
     "project_id": "trader-joes-app",
     "storage_bucket": "trader-joes-app.appspot.com"
   },
@@ -14,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "925556898251-9q2hlft8igmoafrl7ge1dpa38k71t5em.apps.googleusercontent.com",
+          "client_id": "925556898251-keu9c3d8gfkl8qvsv7i09lpmceifi1gh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trader.joes",
+            "certificate_hash": "afe7819a5e8bd8414542d28cf326f9a90f959956"
+          }
+        },
+        {
+          "client_id": "925556898251-oc65aa4d65m5js3lggdojglpiefbdpq9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
