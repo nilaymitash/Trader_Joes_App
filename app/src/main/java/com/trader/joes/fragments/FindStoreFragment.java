@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.textfield.TextInputEditText;
@@ -69,9 +70,9 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
         locationRecyclerView.setAdapter(storeLocationAdapter);
 
         // Initialize map fragment
-        /*SupportMapFragment mapFragment = (SupportMapFragment)
+        SupportMapFragment mapFragment = (SupportMapFragment)
                 getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);*/
+        mapFragment.getMapAsync(this);
 
         //initialize Location Manager
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -97,12 +98,12 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+        // Add a marker in Philadelphia and move the camera
+        LatLng philly = new LatLng(39.952583, -75.165222);
         mMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                .position(philly)
+                .title("Marker in Philadelphia"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(philly));
     }
 
     private boolean isLocationPermissionGranted() {
@@ -159,14 +160,18 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
 
 
     private String getZipCode(Coordinates coordinates) {
-        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(coordinates.getLatitude(), coordinates.getLongitude(), 1);
-            return addresses.get(0).getPostalCode();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "19333"; //return a default zip code if there is an exception
+        if(getActivity() != null) {
+            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+            try {
+                List<Address> addresses = geocoder.getFromLocation(coordinates.getLatitude(), coordinates.getLongitude(), 1);
+                return addresses.get(0).getPostalCode();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "19333"; //return a default zip code if there is an exception
+            }
         }
+
+        return "19333"; //94043
     }
 
     private class FindStoreTask extends AsyncTask<Void, Void, String> {
@@ -258,13 +263,21 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
                 //update recycler view locations
                 storeLocationAdapter.updateStoreList(list);
                 locationList = list;
-
-                //TODO: Plot coordinates on the map
-
+                //Plot coordinates on the map
+                plotMarkersOnMap(list);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void plotMarkersOnMap(List<Store> list) {
+        LatLng firstStore = new LatLng(list.get(0).getLatitude(), list.get(0).getLongitude());
+        for (Store store : list) {
+            LatLng latLng = new LatLng(store.getLatitude(), store.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(latLng).title(store.getName()));
+        }
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(firstStore, 10));
     }
 
     private class Coordinates {

@@ -1,6 +1,5 @@
 package com.trader.joes.adapter;
 
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
