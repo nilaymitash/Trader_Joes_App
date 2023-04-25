@@ -269,15 +269,16 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void plotMarkersOnMap(List<Store> list) {
-        LatLng firstStore = new LatLng(list.get(0).getLatitude(), list.get(0).getLongitude());
-        for (Store store : list) {
-            LatLng latLng = new LatLng(store.getLatitude(), store.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(latLng).title(store.getName()));
+        private void plotMarkersOnMap(List<Store> list) {
+            mMap.clear();
+            LatLng firstStore = new LatLng(list.get(0).getLatitude(), list.get(0).getLongitude());
+            for (Store store : list) {
+                LatLng latLng = new LatLng(store.getLatitude(), store.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(latLng).title(store.getName()));
+            }
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(firstStore, 10));
         }
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(firstStore, 10));
+
     }
 
     private class Coordinates {
