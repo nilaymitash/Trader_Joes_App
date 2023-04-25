@@ -61,6 +61,7 @@
         android:textStyle="bold"/>
 
     <TextView
+        android:id="@+id/terms_condition_text"
         android:layout_below="@id/create_account_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

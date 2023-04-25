@@ -118,12 +118,14 @@ public class ProductListFragment extends Fragment {
             public void accept(User user) {
                 int totalItems = 0;
 
-                for(CartItem item: user.getCartItems()) {
-                    totalItems += item.getQty();
-                }
-                totalCartItems = totalItems;
-                if(getActivity() != null) {
-                    new ProductListListener().onGlobalLayout();
+                if(user != null) {
+                    for(CartItem item: user.getCartItems()) {
+                        totalItems += item.getQty();
+                    }
+                    totalCartItems = totalItems;
+                    if(getActivity() != null) {
+                        new ProductListListener().onGlobalLayout();
+                    }
                 }
             }
         };
