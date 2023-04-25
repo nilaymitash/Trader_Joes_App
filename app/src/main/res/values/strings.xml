@@ -60,4 +60,5 @@
 
     <!--Find a store-->
     <string name="zip">Enter a ZIP code...</string>
+    <string name="search">Search</string>
 </resources>

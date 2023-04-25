@@ -7,17 +7,45 @@
     tools:context=".fragments.FindStoreFragment"
     android:layout_margin="20dp">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/zipcode_input"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/search_layout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/zip"/>
+        android:layout_centerHorizontal="true">
 
-    <fragment
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/zipcode_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/zip"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/search_stores_btn"
+            android:layout_toRightOf="@+id/zipcode_input"
+            android:text="@string/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            style="@style/Widget.Material3.Button"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"/>
+
+    </RelativeLayout>
+
+    <!--<fragment
         android:id="@+id/map"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        android:name="com.google.android.gms.maps.SupportMapFragment"/>-->
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/location_list"
+        android:layout_below="@id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/location_list_item"/>
 </RelativeLayout>
