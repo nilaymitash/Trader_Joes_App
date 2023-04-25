@@ -250,14 +250,16 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
         protected void onPostExecute(String str) {
             super.onPostExecute(str);
             //hide progress bar
-            //show results
             try {
                 JSONObject jsonObject = new JSONObject(str);
                 Gson gson= new Gson();
                 StoreLocationResponse storeResponseObj = gson.fromJson(jsonObject.get("response").toString(), StoreLocationResponse.class);
                 List<Store> list =  storeResponseObj.getCollection();
+                //update recycler view locations
                 storeLocationAdapter.updateStoreList(list);
                 locationList = list;
+
+                //TODO: Plot coordinates on the map
 
             } catch (JSONException e) {
                 e.printStackTrace();
