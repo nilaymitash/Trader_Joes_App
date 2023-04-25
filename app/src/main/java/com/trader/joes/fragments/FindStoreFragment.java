@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,7 +25,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 import com.trader.joes.R;
+import com.trader.joes.model.Store;
+import com.trader.joes.model.StoreLocationResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +47,7 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
     private Location currentLocation;
     private LocationManager locationManager;
     private TextInputEditText mZipcodeInput;
+    private Button mSearchBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +56,7 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
 
         //initialize UI components
         mZipcodeInput = view.findViewById(R.id.zipcode_input);
+        mSearchBtn = view.findViewById(R.id.search_stores_btn);
 
 
         // Initialize map fragment
@@ -64,8 +70,16 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
         getCoordinates();
         //String zipcode = getZipCode(coordinates);
 
-        //move this to on click of a button: https://code.tutsplus.com/tutorials/android-from-scratch-using-rest-apis--cms-27117
-        new FindStoreTask().execute();
+        mSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //move this to on click of a button: https://code.tutsplus.com/tutorials/android-from-scratch-using-rest-apis--cms-27117
+                String userInputZipcode = String.valueOf(mZipcodeInput.getText());
+                new FindStoreTask(userInputZipcode).execute();
+            }
+        });
+
+
 
         return view;
     }
@@ -108,6 +122,21 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
                     mZipcodeInput.setText(zipcode);
                 }
             }
+
+            @Override
+            public void onProviderEnabled(@NonNull String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(@NonNull String provider) {
+
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
         };
 
         if(isLocationPermissionGranted() && hasGPS) {
@@ -123,39 +152,46 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
             return addresses.get(0).getPostalCode();
         } catch (IOException e) {
             e.printStackTrace();
-            return "19078";
+            return "19333"; //return a default zip code if there is an exception
         }
     }
 
     private class FindStoreTask extends AsyncTask<Void, Void, String> {
+        String userEnteredZipcode = "19333";
 
-        String payload = "{\n" +
-                "    \"request\": {\n" +
-                "        \"appkey\": \"8BC3433A-60FC-11E3-991D-B2EE0C70A832\",\n" +
-                "        \"formdata\": {\n" +
-                "            \"geoip\": false,\n" +
-                "            \"dataview\": \"store_default\",\n" +
-                "            \"limit\": 4,\n" +
-                "            \"geolocs\": {\n" +
-                "                \"geoloc\": [\n" +
-                "                    {\n" +
-                "                        \"addressline\": \"19333\",\n" +
-                "                        \"country\": \"US\",\n" +
-                "                        \"latitude\": \"\",\n" +
-                "                        \"longitude\": \"\"\n" +
-                "                    }\n" +
-                "                ]\n" +
-                "            },\n" +
-                "            \"searchradius\": \"10\",\n" +
-                "            \"where\": {\n" +
-                "                \"warehouse\": {\n" +
-                "                    \"distinctfrom\": \"1\"\n" +
-                "                }\n" +
-                "            },\n" +
-                "            \"false\": \"0\"\n" +
-                "        }\n" +
-                "    }\n" +
-                "}";
+        public FindStoreTask(String userEnteredZipcode) {
+            this.userEnteredZipcode = userEnteredZipcode;
+        }
+
+        public String getPayload() {
+            return "{\n" +
+                    "    \"request\": {\n" +
+                    "        \"appkey\": \"8BC3433A-60FC-11E3-991D-B2EE0C70A832\",\n" +
+                    "        \"formdata\": {\n" +
+                    "            \"geoip\": false,\n" +
+                    "            \"dataview\": \"store_default\",\n" +
+                    "            \"limit\": 4,\n" +
+                    "            \"geolocs\": {\n" +
+                    "                \"geoloc\": [\n" +
+                    "                    {\n" +
+                    "                        \"addressline\": \"" + this.userEnteredZipcode + "\",\n" +
+                    "                        \"country\": \"US\",\n" +
+                    "                        \"latitude\": \"\",\n" +
+                    "                        \"longitude\": \"\"\n" +
+                    "                    }\n" +
+                    "                ]\n" +
+                    "            },\n" +
+                    "            \"searchradius\": \"10\",\n" +
+                    "            \"where\": {\n" +
+                    "                \"warehouse\": {\n" +
+                    "                    \"distinctfrom\": \"1\"\n" +
+                    "                }\n" +
+                    "            },\n" +
+                    "            \"false\": \"0\"\n" +
+                    "        }\n" +
+                    "    }\n" +
+                    "}";
+        }
 
         @Override
         protected void onPreExecute() {
@@ -173,7 +209,7 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
                 myConnection = (HttpsURLConnection) findStoreEndpoint.openConnection();
                 myConnection.setRequestMethod("POST");
                 myConnection.setDoOutput(true);
-                myConnection.getOutputStream().write(payload.getBytes());
+                myConnection.getOutputStream().write(getPayload().getBytes());
 
                 InputStream in = myConnection.getInputStream();
                 InputStreamReader isw = new InputStreamReader(in);
@@ -204,7 +240,11 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
             //show results
             try {
                 JSONObject jsonObject = new JSONObject(str);
+                Gson gson= new Gson();
+                StoreLocationResponse storeResponseObj = gson.fromJson(jsonObject.get("response").toString(), StoreLocationResponse.class);
+                List<Store> list =  storeResponseObj.getCollection();
 
+                //TODO: populate recycler view data
             } catch (JSONException e) {
                 e.printStackTrace();
             }
