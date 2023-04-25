@@ -18,6 +18,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.trader.joes.R;
+import com.trader.joes.adapter.StoreLocationAdapter;
 import com.trader.joes.model.Store;
 import com.trader.joes.model.StoreLocationResponse;
 
@@ -37,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,6 +51,10 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
     private LocationManager locationManager;
     private TextInputEditText mZipcodeInput;
     private Button mSearchBtn;
+    private StoreLocationAdapter storeLocationAdapter;
+    private RecyclerView locationRecyclerView;
+    private List<Store> locationList = new ArrayList<>();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +64,9 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
         //initialize UI components
         mZipcodeInput = view.findViewById(R.id.zipcode_input);
         mSearchBtn = view.findViewById(R.id.search_stores_btn);
-
+        storeLocationAdapter = new StoreLocationAdapter(locationList);
+        locationRecyclerView = view.findViewById(R.id.location_list);
+        locationRecyclerView.setAdapter(storeLocationAdapter);
 
         // Initialize map fragment
         /*SupportMapFragment mapFragment = (SupportMapFragment)
@@ -120,6 +129,10 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
                 String zipcode = getZipCode(coordinates);
                 if(mZipcodeInput.getText() == null || mZipcodeInput.getText().toString().equals("")) {
                     mZipcodeInput.setText(zipcode);
+                    //download list only the first time:
+                    if(locationList.isEmpty()) {
+                        new FindStoreTask(zipcode).execute();
+                    }
                 }
             }
 
@@ -243,8 +256,9 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
                 Gson gson= new Gson();
                 StoreLocationResponse storeResponseObj = gson.fromJson(jsonObject.get("response").toString(), StoreLocationResponse.class);
                 List<Store> list =  storeResponseObj.getCollection();
+                storeLocationAdapter.updateStoreList(list);
+                locationList = list;
 
-                //TODO: populate recycler view data
             } catch (JSONException e) {
                 e.printStackTrace();
             }

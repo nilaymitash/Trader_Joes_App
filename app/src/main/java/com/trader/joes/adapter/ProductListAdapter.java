@@ -87,7 +87,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             super(itemView);
             userDataMaintenanceService = new UserDataMaintenanceService();
 
-            mTextViewName = itemView.findViewById(R.id.cart_product_title);
+            mTextViewName = itemView.findViewById(R.id.product_title);
             mTextViewPrice = itemView.findViewById(R.id.cart_product_price);
             mProductImage = itemView.findViewById(R.id.product_img_holder);
             mProductRatingBar = itemView.findViewById(R.id.product_rating_bar);

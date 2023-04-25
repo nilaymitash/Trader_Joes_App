@@ -1,8 +1,6 @@
 package com.trader.joes.adapter;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +81,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.ViewHo
 
             mCartItemCard = itemView.findViewById(R.id.cart_item_card);
             mProductImageView = itemView.findViewById(R.id.cart_product_img);
-            mTextViewName = itemView.findViewById(R.id.cart_product_title);
+            mTextViewName = itemView.findViewById(R.id.product_title);
             mTextViewPrice = itemView.findViewById(R.id.cart_product_price);
             mDecreaseBtn = itemView.findViewById(R.id.decrement_btn);
             qtyInput = itemView.findViewById(R.id.product_qty_input);
