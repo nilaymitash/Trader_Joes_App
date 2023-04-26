@@ -14,7 +14,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -46,7 +48,11 @@ import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
+/**
+ * TODO: Add a dialog progress bar
+ */
 public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
+    private RelativeLayout mainLayout;
     private GoogleMap mMap;
     private LocationManager locationManager;
     private TextInputEditText mZipcodeInput;
@@ -61,6 +67,7 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_find_store, container, false);
 
         //initialize UI components
+        mainLayout = view.findViewById(R.id.find_store_layout);
         mZipcodeInput = view.findViewById(R.id.zipcode_input);
         mSearchBtn = view.findViewById(R.id.search_stores_btn);
         storeLocationAdapter = new StoreLocationAdapter(locationList);
@@ -81,8 +88,14 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
         mSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //move this to on click of a button: https://code.tutsplus.com/tutorials/android-from-scratch-using-rest-apis--cms-27117
+                //hide the keyboard after the user clicks on search button
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
+
+                //get user entered zip code
                 String userInputZipcode = String.valueOf(mZipcodeInput.getText());
+
+                //download and plot Trader Joe's locations based on input zipcode
                 new FindStoreTask(userInputZipcode).execute();
             }
         });
