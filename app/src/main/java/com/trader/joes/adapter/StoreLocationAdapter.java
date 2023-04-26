@@ -43,7 +43,9 @@ public class StoreLocationAdapter extends RecyclerView.Adapter<StoreLocationAdap
         Store store = storeLocations.get(position);
 
         //Download location image:
-        Picasso.get().load(store.getLocationimage()).into(holder.mLocationImg);
+        if(store.getLocationimage() != null & !store.getLocationimage().trim().equals("")) {
+            Picasso.get().load(store.getLocationimage()).into(holder.mLocationImg);
+        }
         holder.mLocationName.setText(store.getName());
         holder.mLocationDistance.setText(store.get_distance() +" "+ store.get_distanceuom());
         holder.mLocationAddr1.setText(store.getAddress1());

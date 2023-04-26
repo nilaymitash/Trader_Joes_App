@@ -1,6 +1,7 @@
 package com.trader.joes.service;
 
 import android.app.Activity;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -9,6 +10,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.function.Consumer;
 
@@ -80,6 +82,43 @@ public class AuthService {
                         }
                     }
                 });
+    }
+
+    public void updateUserProfile(String displayName, String email, Consumer<Void> successCallback) {
+        FirebaseUser user = getCurrentUser();
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(displayName)
+                .build();
+
+        updateDisplayName(user, profileUpdates, successCallback);
+
+        updateEmail(email, successCallback, user);
+    }
+
+    private void updateEmail(String email, Consumer<Void> successCallback, FirebaseUser user) {
+        user.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d("Auth Service", "User email address updated.");
+                    successCallback.accept(null);
+                } else {
+                    Log.d("Auth Service", "User email address update failed.");
+                }
+            }
+        });
+    }
+
+    private void updateDisplayName(FirebaseUser user, UserProfileChangeRequest profileUpdates, Consumer<Void> successCallback) {
+        user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d("Auth Service", "User profile updated.");
+                    successCallback.accept(null);
+                }
+            }
+        });
     }
 
     /**
