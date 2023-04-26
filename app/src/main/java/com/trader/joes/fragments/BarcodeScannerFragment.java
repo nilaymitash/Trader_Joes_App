@@ -23,11 +23,15 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.trader.joes.R;
 import com.trader.joes.service.BarcodeAnalyzer;
 
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * References:
+ * https://developers.google.com/ml-kit/vision/barcode-scanning/android#java
+ * https://medium.com/codex/scan-barcodes-in-android-using-the-ml-kit-30b2a03ccd50
+ */
 public class BarcodeScannerFragment extends Fragment {
 
     private ExecutorService cameraExecutor;
