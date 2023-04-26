@@ -67,8 +67,7 @@ public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
             InputImage inputImage = InputImage.fromMediaImage(img, image.getImageInfo().getRotationDegrees());
 
             //Process image searching for barcodes
-            //TODO: update barcode format
-            BarcodeScannerOptions options = new BarcodeScannerOptions.Builder().setBarcodeFormats(Barcode.FORMAT_QR_CODE).build();
+            BarcodeScannerOptions options = new BarcodeScannerOptions.Builder().setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS).build();
 
             BarcodeScanner scanner = BarcodeScanning.getClient(options);
 
@@ -83,7 +82,7 @@ public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
 
                             //TODO: handle barcodes...
                             Toast.makeText(context, barcode.getRawValue(), Toast.LENGTH_SHORT).show();
-                            //Add SKU to the card or show error
+                            //Add SKU to the cart or show error
                         }
                     } else {
                         //Remove bounding rect
