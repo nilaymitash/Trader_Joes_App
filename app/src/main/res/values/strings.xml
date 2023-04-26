@@ -3,6 +3,7 @@
 
     <!--Common strings-->
     <string name="back">Back</string>
+    <string name="ok">Ok</string>
 
     <!--Main Activity-->
     <string name="log_in">Log In</string>
