@@ -11,53 +11,100 @@
         android:hint="@string/cardholder_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        style="Input"/>
+        android:maxLength="50"
+        android:maxLines="1"
+        android:inputType="textPersonName"/>
+
+    <TextView
+        android:id="@+id/card_holder_validation_msg"
+        android:layout_below="@+id/card_holder_input"
+        android:text="@string/invalid_name"
+        android:textColor="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/card_number_input"
-        android:layout_below="@id/card_holder_input"
+        android:layout_below="@id/card_holder_validation_msg"
         android:hint="@string/card_num"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginTop="5dp"
+        android:maxLength="19"
+        android:maxLines="1"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/card_number_validation_msg"
+        android:layout_below="@+id/card_number_input"
+        android:text="@string/invalid_card_num"
+        android:textColor="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/month_input"
-        android:layout_below="@id/card_number_input"
+        android:layout_below="@id/card_number_validation_msg"
         android:hint="@string/mm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginTop="5dp"
+        android:maxLength="2"
+        android:maxLines="1"
+        android:inputType="number"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/year_input"
-        android:layout_below="@id/card_number_input"
+        android:layout_below="@id/card_number_validation_msg"
         android:layout_toRightOf="@id/month_input"
         android:hint="@string/yyyy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:maxLength="4"
+        android:maxLines="1"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/date_validation_msg"
+        android:layout_below="@+id/month_input"
+        android:text="@string/invalid_date"
+        android:textColor="@color/red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/cvv_input"
-        android:layout_below="@id/card_number_input"
+        android:layout_below="@id/card_number_validation_msg"
         android:layout_toRightOf="@+id/year_input"
         android:hint="@string/cvv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="50dp"
+        android:maxLength="3"
+        android:maxLines="1"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/cvv_validation_msg"
+        android:layout_below="@+id/cvv_input"
+        android:layout_toRightOf="@id/year_input"
+        android:text="@string/invalid_cvv"
+        android:textColor="@color/red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"/>
 
+    <!--TODO: test and fix dimensions for all card types-->
     <ImageView
         android:id="@+id/card_type_img"
-        android:layout_below="@id/card_number_input"
+        android:layout_below="@id/card_number_validation_msg"
         android:layout_alignParentEnd="true"
         android:layout_width="62dp"
         android:layout_height="20dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/visa"/>
+        android:layout_marginTop="15dp"/>
 
 </RelativeLayout>

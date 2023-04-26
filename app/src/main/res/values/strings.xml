@@ -41,11 +41,16 @@
     <string name="your_cart">Shopping Cart</string>
     <string name="subtotal">Subtotal</string>
     <string name="proceed_to_checkout">Proceed to checkout</string>
+    <string name="continue_shopping">Continue shopping</string>
     <string name="cardholder_name">Cardholder\'s name</string>
     <string name="card_num">Card number</string>
     <string name="mm">MM</string>
     <string name="yyyy">YYYY</string>
     <string name="cvv">CVV</string>
+    <string name="invalid_name">Invalid name</string>
+    <string name="invalid_card_num">Invalid card number</string>
+    <string name="invalid_date">Invalid date</string>
+    <string name="invalid_cvv">Invalid CVV</string>
     <string name="confirm_payment">Confirm payment</string>
     <string name="back_to_cart">Back to cart</string>
 

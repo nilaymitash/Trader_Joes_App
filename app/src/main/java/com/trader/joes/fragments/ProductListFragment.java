@@ -213,14 +213,16 @@ public class ProductListFragment extends Fragment {
         @Override
         public void onGlobalLayout() {
 
-            BadgeDrawable badgeDrawable = BadgeDrawable.create(getActivity());
-            badgeDrawable.setNumber(totalCartItems);
+            if(getActivity() != null) {
+                BadgeDrawable badgeDrawable = BadgeDrawable.create(getActivity());
+                badgeDrawable.setNumber(totalCartItems);
 
-            //Important to change the position of the Badge
-            badgeDrawable.setHorizontalOffset(30);
-            badgeDrawable.setVerticalOffset(20);
+                //Important to change the position of the Badge
+                badgeDrawable.setHorizontalOffset(30);
+                badgeDrawable.setVerticalOffset(20);
 
-            BadgeUtils.attachBadgeDrawable(badgeDrawable, mViewCartBtn, null);
+                BadgeUtils.attachBadgeDrawable(badgeDrawable, mViewCartBtn, null);
+            }
 
             mViewCartBtn.getViewTreeObserver().removeOnGlobalLayoutListener(this);
         }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ProductListFragment">
+    tools:context=".fragments.CartFragment">
 
     <RelativeLayout
         android:id="@+id/cart_head_layout"
@@ -62,9 +62,20 @@
             style="@style/Widget.Material3.Button"
             android:textSize="16sp"/>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/continue_shopping_btn"
+            android:layout_below="@id/proceed_to_checkout_btn"
+            android:text="@string/continue_shopping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:textSize="16sp"
+            app:strokeColor="@color/tj_red_primary"/>
+
         <View
             android:id="@+id/header_divider"
-            android:layout_below="@+id/proceed_to_checkout_btn"
+            android:layout_below="@+id/continue_shopping_btn"
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
             android:background="?android:attr/listDivider" />
@@ -113,6 +124,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/product_list_item"/>
+        tools:listitem="@layout/cart_list_item"/>
 
 </RelativeLayout>

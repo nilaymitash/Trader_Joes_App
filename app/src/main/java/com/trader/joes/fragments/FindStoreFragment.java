@@ -48,14 +48,12 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
-    private Location currentLocation;
     private LocationManager locationManager;
     private TextInputEditText mZipcodeInput;
     private Button mSearchBtn;
     private StoreLocationAdapter storeLocationAdapter;
     private RecyclerView locationRecyclerView;
     private List<Store> locationList = new ArrayList<>();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,8 +75,8 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
         //initialize Location Manager
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
+        //Fetch user's current location on view load
         getCoordinates();
-        //String zipcode = getZipCode(coordinates);
 
         mSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,9 +86,6 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
                 new FindStoreTask(userInputZipcode).execute();
             }
         });
-
-
-
         return view;
     }
 
@@ -157,7 +152,6 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0F, gpsLocationListener);
         }
     }
-
 
     private String getZipCode(Coordinates coordinates) {
         if(getActivity() != null) {
