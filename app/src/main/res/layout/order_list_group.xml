@@ -6,13 +6,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/order_group_title"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:textColor="@color/black"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+        android:paddingBottom="10dp">
 
+        <TextView
+            android:id="@+id/order_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tj_red_primary"
+            android:paddingRight="23dp"
+            android:text="04-27-2023"/>
+
+        <View
+            android:id="@+id/divider_1"
+            android:layout_toRightOf="@id/order_date"
+            android:layout_width="1.5dp"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/dividerVertical"/>
+
+        <TextView
+            android:id="@+id/order_amount"
+            android:layout_toRightOf="@+id/divider_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tj_red_primary"
+            android:paddingLeft="25dp"
+            android:paddingRight="23dp"
+            android:text="$100.00"/>
+
+        <View
+            android:id="@+id/divider_2"
+            android:layout_toRightOf="@id/order_amount"
+            android:layout_width="1.5dp"
+            android:layout_height="match_parent"
+            android:background="?android:attr/dividerVertical"/>
+
+        <TextView
+            android:id="@+id/order_id"
+            android:layout_toRightOf="@+id/order_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tj_red_primary"
+            android:paddingLeft="25dp"
+            android:text="5UW8L30JFJ"/>
+
+    </RelativeLayout>
 </LinearLayout>

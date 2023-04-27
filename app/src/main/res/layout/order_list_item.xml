@@ -1,17 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/expanded_order_list_item"
+    <!--Image, name, quantity, price-->
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+        android:paddingBottom="10dp">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/order_history_product_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:id="@+id/order_history_product_name"
+            android:layout_toRightOf="@+id/order_history_product_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="name"/>
+
+        <TextView
+            android:id="@+id/order_history_product_qty_label"
+            android:layout_toRightOf="@+id/order_history_product_img"
+            android:layout_below="@+id/order_history_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Qty: "/>
+
+        <TextView
+            android:id="@+id/order_history_product_qty"
+            android:layout_toRightOf="@+id/order_history_product_qty_label"
+            android:layout_below="@+id/order_history_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"/>
+
+        <TextView
+            android:id="@+id/order_history_product_price_label"
+            android:layout_toRightOf="@+id/order_history_product_img"
+            android:layout_below="@+id/order_history_product_qty_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price: "/>
+
+        <TextView
+            android:id="@+id/order_history_product_price"
+            android:layout_toRightOf="@+id/order_history_product_price_label"
+            android:layout_below="@+id/order_history_product_qty_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$2.45"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
