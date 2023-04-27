@@ -55,6 +55,10 @@
     <string name="confirm_payment">Confirm payment</string>
     <string name="back_to_cart">Back to cart</string>
 
+    <!--Order confirmation page-->
+    <string name="order_confirmed">Order confirmed</string>
+    <string name="order_confirmation_text">Your order has been placed. Your confirmation number is: </string>
+
     <!--Account page-->
     <string name="personal_info">Personal info</string>
     <string name="payment_info">Payment info</string>

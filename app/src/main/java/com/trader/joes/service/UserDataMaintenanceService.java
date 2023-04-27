@@ -2,6 +2,8 @@ package com.trader.joes.service;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -10,11 +12,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.trader.joes.model.CartItem;
 import com.trader.joes.model.Product;
+import com.trader.joes.model.Transaction;
+import com.trader.joes.model.TransactionHistory;
 import com.trader.joes.model.User;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.function.Consumer;
 
 /**
@@ -26,7 +32,7 @@ public class UserDataMaintenanceService {
     private AuthService authService;
     private final FirebaseDatabase database;
     private final DatabaseReference userDataRef;
-
+    private static final String ID_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     private static User currentUser;
 
     public UserDataMaintenanceService() {
@@ -136,6 +142,16 @@ public class UserDataMaintenanceService {
     }
 
     /**
+     * This method deletes all items from user's cart.
+     */
+    public void emptyCart() {
+        FirebaseUser firebaseUser = authService.getCurrentUser();
+        String userId = firebaseUser.getUid();
+
+        userDataRef.child("users").child(userId).child("cartItems").setValue(new ArrayList<>());
+    }
+
+    /**
      * This method updates the quantity of a product that is already in the cart.
      * @param item
      */
@@ -147,5 +163,55 @@ public class UserDataMaintenanceService {
         newCartMap.put(item.getProductSku(), item);
 
         userDataRef.child("users").child(userId).child("cartItems").setValue(new ArrayList<>(newCartMap.values()));
+    }
+
+    /**
+     * This method places an order
+     * @param transaction
+     */
+    public void completeTransaction(Transaction transaction, Consumer<Transaction> successCallBack) {
+        generateTransactionId(transaction);
+        FirebaseUser firebaseUser = authService.getCurrentUser();
+        String userId = firebaseUser.getUid();
+        Task<DataSnapshot> transactionHistorySnapshot =  userDataRef.child("user").child("transactionHistory").get();
+        transactionHistorySnapshot.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                TransactionHistory transactionHistory = dataSnapshot.getValue(TransactionHistory.class);
+
+                if(transactionHistory == null) {
+                    //user has no previous transactions
+                    //create a new list and save
+                    List<Transaction> transactionList = new ArrayList<>();
+                    transactionList.add(transaction);
+                    TransactionHistory history = new TransactionHistory();
+                    history.setTransactionList(transactionList);
+                    userDataRef.child("users").child(userId).child("transactionHistory").setValue(history);
+                } else {
+                    //user has previous transactions
+                    //update the list and push
+                    transactionHistory.getTransactionList().add(transaction);
+                    userDataRef.child("users").child(userId).child("transactionHistory").setValue(transactionHistory);
+                }
+                successCallBack.accept(transaction);
+                emptyCart();
+            }
+        });
+
+    }
+
+    private void generateTransactionId(Transaction transaction) {
+        transaction.setTransactionId(generateId());
+    }
+    protected String generateId() {
+        StringBuilder idBuilder = new StringBuilder();
+        Random rnd = new Random();
+        while (idBuilder.length() < 10) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * ID_CHARS.length());
+            idBuilder.append(ID_CHARS.charAt(index));
+        }
+        String id = idBuilder.toString();
+        return id;
+
     }
 }

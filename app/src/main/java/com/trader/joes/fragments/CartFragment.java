@@ -20,12 +20,14 @@ import com.trader.joes.R;
 import com.trader.joes.adapter.CartListAdapter;
 import com.trader.joes.model.CardPattern;
 import com.trader.joes.model.CartItem;
+import com.trader.joes.model.Transaction;
 import com.trader.joes.model.User;
 import com.trader.joes.service.AuthService;
 import com.trader.joes.service.UserDataMaintenanceService;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,8 +59,8 @@ public class CartFragment extends Fragment {
     private TextView mCardNumValidation;
     private TextView mDateValidation;
     private TextView mCVVValidation;
-
-    List<CardPattern> listOfPattern = new ArrayList<>();
+    private List<CartItem> currentCartItems = new ArrayList<>();
+    private List<CardPattern> listOfPattern = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,6 +142,7 @@ public class CartFragment extends Fragment {
             @Override
             public void accept(User user) {
                 List<CartItem> cartItems = user.getCartItems();
+                currentCartItems = cartItems;
                 updateCartHeaders(cartItems);
 
                 mCartListAdapter = new CartListAdapter(cartItems, CartFragment.this);
@@ -224,6 +227,34 @@ public class CartFragment extends Fragment {
         private void confirmPayment() {
             //validate all inputs
             validateExpirationDate();
+            Transaction transaction = populateTransactionObject();
+
+            Consumer<Transaction> successCallback = new Consumer<Transaction>() {
+                @Override
+                public void accept(Transaction transaction) {
+                    //updated transaction object with transaction id.
+                    //navigate to order confirmation fragment and pass transaction id
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ORDER_CONFIRMATION_NUM", transaction.getTransactionId());
+
+                    OrderConfirmationFragment orderConfirmationFragment = new OrderConfirmationFragment();
+                    orderConfirmationFragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, orderConfirmationFragment).commit();
+                }
+            };
+            userDataMaintenanceService.completeTransaction(transaction, successCallback);
+        }
+
+        private Transaction populateTransactionObject() {
+            Calendar currentDate = Calendar.getInstance();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+            String currentDateStr = dateFormat.format(currentDate.getTime());
+
+            Transaction transaction = new Transaction();
+            transaction.setItems(currentCartItems);
+            transaction.setTransactionAmt(String.valueOf(mSubtotalAmt.getText()));
+            transaction.setTransactionDate(currentDateStr);
+            return transaction;
         }
 
         private void validateExpirationDate() {
