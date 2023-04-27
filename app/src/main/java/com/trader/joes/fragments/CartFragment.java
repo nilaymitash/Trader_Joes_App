@@ -1,14 +1,17 @@
 package com.trader.joes.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +42,7 @@ import java.util.function.Consumer;
  */
 public class CartFragment extends Fragment {
 
+    private RelativeLayout mainLayout;
     private UserDataMaintenanceService userDataMaintenanceService;
     private CartListAdapter mCartListAdapter;
     private TextView mTotalItems;
@@ -69,6 +73,7 @@ public class CartFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
         userDataMaintenanceService = new UserDataMaintenanceService();
+        mainLayout = view.findViewById(R.id.cart_layout);
         mTotalItems = view.findViewById(R.id.total_items);
         mSubtotalAmt = view.findViewById(R.id.subtotal_amount);
         mCartListView = view.findViewById(R.id.cartRecyclerView);
@@ -225,6 +230,10 @@ public class CartFragment extends Fragment {
         }
 
         private void confirmPayment() {
+            //hide the keyboard
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0); //hide numeric keyboard
+
             //validate all inputs
             validateExpirationDate();
             Transaction transaction = populateTransactionObject();

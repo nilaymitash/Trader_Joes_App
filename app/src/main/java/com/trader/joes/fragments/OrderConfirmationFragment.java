@@ -17,7 +17,6 @@ import com.trader.joes.R;
 
 public class OrderConfirmationFragment extends Fragment {
 
-    private RelativeLayout mainLayout;
     private TextView mConfirmationNumber;
     private Button mContinueShopping;
 
@@ -25,14 +24,8 @@ public class OrderConfirmationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_confirmation, container, false);
-        mainLayout = view.findViewById(R.id.order_confirmation_layout);
         mConfirmationNumber = view.findViewById(R.id.confirmation_number);
         mContinueShopping = view.findViewById(R.id.continue_shopping_btn);
-
-        //hide the keyboard on fragment load
-        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0); //hide numeric keyboard
-        imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0); //hide text keyboard
 
         String orderConfirmationNumber = getArguments().getString("ORDER_CONFIRMATION_NUM");
         mConfirmationNumber.setText(orderConfirmationNumber); //set confirmation number

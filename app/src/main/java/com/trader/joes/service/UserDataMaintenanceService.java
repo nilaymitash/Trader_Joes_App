@@ -104,7 +104,7 @@ public class UserDataMaintenanceService {
         this.currentUser.setCartItems(new ArrayList<>(newCartMap.values()));
 
         //saves/updates current user's data
-        userDataRef.child("users").child(userId).setValue(this.currentUser);
+        userDataRef.child("users").child(userId).child("cartItems").setValue(new ArrayList<>(newCartMap.values()));
     }
 
     /**
@@ -173,7 +173,7 @@ public class UserDataMaintenanceService {
         generateTransactionId(transaction);
         FirebaseUser firebaseUser = authService.getCurrentUser();
         String userId = firebaseUser.getUid();
-        Task<DataSnapshot> transactionHistorySnapshot =  userDataRef.child("user").child("transactionHistory").get();
+        Task<DataSnapshot> transactionHistorySnapshot =  userDataRef.child("users").child(userId).child("transactionHistory").get();
         transactionHistorySnapshot.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
@@ -198,6 +198,25 @@ public class UserDataMaintenanceService {
             }
         });
 
+    }
+
+    public void getOrderHistory(Consumer<TransactionHistory> successCallback, Consumer<String> failureCallback) {
+        FirebaseUser firebaseUser = authService.getCurrentUser();
+        String userId = firebaseUser.getUid();
+        userDataRef.child("users").child(userId).child("transactionHistory").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                TransactionHistory transactionHistory = snapshot.getValue(TransactionHistory.class);
+                //execute success callback function provided by the caller
+                successCallback.accept(transactionHistory);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //execute failure callback function provided by the caller
+                failureCallback.accept(error.getMessage());
+            }
+        });
     }
 
     private void generateTransactionId(Transaction transaction) {

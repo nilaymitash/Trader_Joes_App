@@ -71,4 +71,7 @@
     <!--Find a store-->
     <string name="zip">Enter a ZIP code...</string>
     <string name="search">Search</string>
+
+    <!--Order history-->
+    <string name="your_orders">Your orders</string>
 </resources>

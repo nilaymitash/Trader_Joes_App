@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.CartFragment">
+    tools:context=".fragments.CartFragment"
+    android:id="@+id/cart_layout">
 
     <RelativeLayout
         android:id="@+id/cart_head_layout"
