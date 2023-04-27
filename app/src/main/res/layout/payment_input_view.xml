@@ -102,7 +102,7 @@
         android:id="@+id/card_type_img"
         android:layout_below="@id/card_number_validation_msg"
         android:layout_alignParentEnd="true"
-        android:layout_width="62dp"
+        android:layout_width="60dp"
         android:layout_height="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"/>
