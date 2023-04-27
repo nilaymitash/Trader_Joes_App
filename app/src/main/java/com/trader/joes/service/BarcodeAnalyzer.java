@@ -20,11 +20,17 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 import com.trader.joes.fragments.BarcodeBoxView;
+import com.trader.joes.model.CartItem;
+import com.trader.joes.model.Product;
+import com.trader.joes.model.User;
 
 import java.util.List;
+import java.util.Map;
 
 public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
 
+    private UserDataMaintenanceService userDataMaintenanceService;
+    private Map<String, Product> productMap;
     private Context context;
     private BarcodeBoxView barcodeBoxView;
     private float previewViewWidth;
@@ -37,6 +43,8 @@ public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
         this.barcodeBoxView = barcodeBoxView;
         this.previewViewWidth = previewViewWidth;
         this.previewViewHeight = previewViewHeight;
+        this.userDataMaintenanceService = new UserDataMaintenanceService();
+        this.productMap = ProductRetrievalService.getAllProductsMap();
     }
 
     private float translateX(float x) {
@@ -80,9 +88,13 @@ public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
                             Rect boundingBox = barcode.getBoundingBox();
                             barcodeBoxView.setRect(adjustBoundingRect(boundingBox));
 
-                            //TODO: handle barcodes...
-                            Toast.makeText(context, barcode.getRawValue(), Toast.LENGTH_SHORT).show();
-                            //Add SKU to the cart or show error
+                            //add product to the cart.
+                            String productSku = barcode.getRawValue();
+                            Product product = productMap.get(productSku);
+                            if(product != null) {
+                                userDataMaintenanceService.addProductToUserCart(product);
+                                Toast.makeText(context, product.getProductName() + " added to your cart!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     } else {
                         //Remove bounding rect

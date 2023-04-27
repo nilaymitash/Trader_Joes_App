@@ -3,6 +3,7 @@ package com.trader.joes.fragments;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,12 +61,14 @@ public class BarcodeScannerFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         cameraExecutor.shutdown();
+        barcodeBoxView.setRect(new RectF());
     }
 
     @Override
     public void onPause() {
         super.onPause();
         cameraExecutor.shutdown();
+        barcodeBoxView.setRect(new RectF());
     }
 
     @Override

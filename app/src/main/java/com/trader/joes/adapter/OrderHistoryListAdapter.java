@@ -28,7 +28,7 @@ public class OrderHistoryListAdapter extends BaseExpandableListAdapter {
     public OrderHistoryListAdapter(Context context, List<Transaction> transactionList) {
         this.context = context;
         this.transactionList = transactionList;
-        this.productMap = new ProductRetrievalService().getAllProductsMap();
+        this.productMap = ProductRetrievalService.getAllProductsMap();
     }
 
     @Override
