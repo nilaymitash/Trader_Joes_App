@@ -4,6 +4,7 @@
     <!--Common strings-->
     <string name="back">Back</string>
     <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 
     <!--Main Activity-->
     <string name="log_in">Log In</string>
@@ -34,9 +35,12 @@
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
 
-    <!--Product list view-->
+    <!--Product view-->
     <string name="add_to_cart">Add to cart</string>
     <string name="view_cart_floating_btn">View cart</string>
+    <string name="leave_a_review"><i>Leave a review</i></string>
+    <string name="submit_review">Submit review</string>
+    <string name="review_placeholder"><i>Write a review...</i></string>
 
     <!--Cart view-->
     <string name="your_cart">Shopping Cart</string>
@@ -66,7 +70,6 @@
     <string name="display_name">Name:</string>
     <string name="display_email">Email:</string>
     <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
 
     <!--Find a store-->
     <string name="zip">Enter a ZIP code...</string>

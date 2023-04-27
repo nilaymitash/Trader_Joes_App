@@ -1,81 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".fragments.ProductViewFragment"
-    android:padding="20dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/product_title_label"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="Product title goes here"
-        android:textSize="18sp"/>
-
-    <RatingBar
-        android:id="@+id/product_rating_bar"
-        android:layout_toStartOf="@+id/num_of_ratings"
-        android:layout_above="@+id/product_img_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:numStars="5"
-        android:rating="4.5"
-        style="?android:attr/ratingBarStyleSmall"
-        android:progressTint="@color/tj_red_primary"/>
-
-    <TextView
-        android:id="@+id/num_of_ratings"
-        android:text="(100)"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/product_img_holder"
-        android:textSize="12sp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"/>
-
-    <ImageView
-        android:id="@+id/product_img_holder"
-        android:layout_below="@id/product_title_label"
+    <RelativeLayout
+        android:id="@+id/product_view_layout"
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        tools:context=".fragments.ProductViewFragment"
+        android:padding="20dp">
 
-    <TextView
-        android:id="@+id/product_price_label"
-        android:layout_below="@+id/product_img_holder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="$99.99"/>
+        <TextView
+            android:id="@+id/product_title_label"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Product title goes here"
+            android:textSize="18sp"/>
 
-    <!--<TextView
-        android:id="@+id/product_description"
-        android:layout_below="@id/product_price_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Product description goes here"/>-->
+        <RatingBar
+            android:id="@+id/product_rating_bar"
+            android:layout_toStartOf="@+id/num_of_ratings"
+            android:layout_above="@+id/product_img_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:rating="4.5"
+            style="?android:attr/ratingBarStyleSmall"
+            android:progressTint="@color/tj_red_primary"/>
 
-    <Button
-        android:id="@+id/add_to_cart_product_page"
-        android:layout_below="@id/product_price_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_to_cart"
-        android:textSize="18sp"
-        style="@style/Widget.Material3.Button"/>
+        <TextView
+            android:id="@+id/num_of_ratings"
+            android:text="(100)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@+id/product_img_holder"
+            android:textSize="12sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
 
-    <Button
-        android:id="@+id/view_cart_product_page"
-        android:layout_below="@id/add_to_cart_product_page"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/view_cart_floating_btn"
-        android:textSize="18sp"
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        app:strokeColor="@color/tj_red_primary"/>
+        <ImageView
+            android:id="@+id/product_img_holder"
+            android:layout_below="@id/product_title_label"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/product_price_label"
+            android:layout_below="@+id/product_img_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="$99.99"/>
+
+        <Button
+            android:id="@+id/add_to_cart_product_page"
+            android:layout_below="@id/product_price_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_cart"
+            android:textSize="18sp"
+            style="@style/Widget.Material3.Button"/>
+
+        <Button
+            android:id="@+id/view_cart_product_page"
+            android:layout_below="@id/add_to_cart_product_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/view_cart_floating_btn"
+            android:textSize="18sp"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            app:strokeColor="@color/tj_red_primary"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/leave_review_btn"
+            android:layout_below="@id/view_cart_product_page"
+            android:text="@string/leave_a_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            style="@style/Widget.Material3.Button.TextButton"/>
+
+        <RelativeLayout
+            android:id="@+id/review_layout"
+            android:layout_below="@id/leave_review_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <RatingBar
+                android:id="@+id/review_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="4.5"
+                android:progressTint="@color/tj_red_primary"/>
+
+            <EditText
+                android:id="@+id/review_input"
+                android:layout_below="@id/review_rating"
+                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:hint="@string/review_placeholder"
+                android:lines="8"
+                android:minLines="6"
+                android:maxLines="10"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:scrollbars="vertical"/>
+
+            <Button
+                android:id="@+id/submit_review_btn"
+                android:layout_below="@id/review_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/submit_review"
+                android:textSize="18sp"
+                style="@style/Widget.Material3.Button"/>
+
+            <Button
+                android:id="@+id/cancel_review"
+                android:layout_below="@id/submit_review_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:textSize="18sp"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                app:strokeColor="@color/tj_red_primary"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</ScrollView>

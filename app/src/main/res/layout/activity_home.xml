@@ -8,6 +8,7 @@
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/home_page_drawer_layout"
+        android:layout_above="@+id/bottom_nav_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
