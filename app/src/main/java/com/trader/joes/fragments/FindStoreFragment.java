@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
@@ -34,6 +33,7 @@ import com.trader.joes.R;
 import com.trader.joes.adapter.StoreLocationAdapter;
 import com.trader.joes.model.Store;
 import com.trader.joes.model.StoreLocationResponse;
+import com.trader.joes.service.UtilityService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,8 +89,7 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View view) {
                 //hide the keyboard after the user clicks on search button
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0);
+                UtilityService.hideKeyboard(getActivity(), mainLayout);
 
                 //get user entered zip code
                 String userInputZipcode = String.valueOf(mZipcodeInput.getText());

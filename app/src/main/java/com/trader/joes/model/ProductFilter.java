@@ -1,6 +1,5 @@
 package com.trader.joes.model;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ProductFilter {

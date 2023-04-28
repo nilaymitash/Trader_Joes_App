@@ -2,19 +2,17 @@ package com.trader.joes.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -27,11 +25,13 @@ import com.trader.joes.fragments.FindStoreFragment;
 import com.trader.joes.fragments.OrderHistoryFragment;
 import com.trader.joes.fragments.ProductListFragment;
 import com.trader.joes.service.AuthService;
+import com.trader.joes.service.UtilityService;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NavigationBarView.OnItemSelectedListener {
 
     private AuthService authService;
-    private DrawerLayout mHomePageLayout;
+    private RelativeLayout mHomePageLayout;
+    private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private NavigationView mNavigationView;
     private BottomNavigationView mBottomNavigationView;
@@ -44,8 +44,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_home);
 
         authService = new AuthService();
-
-        mHomePageLayout = findViewById(R.id.home_page_drawer_layout);
+        mHomePageLayout = findViewById(R.id.home_activity);
+        drawerLayout = findViewById(R.id.home_page_drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
         mBottomNavigationView = findViewById(R.id.bottom_nav_view);
 
@@ -58,13 +58,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //Initializing ActionBarDrawerToggle which will be responsible for opening and closing the nav view
         mActionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, // Activity / Context
-                mHomePageLayout, // Drawer layout
+                drawerLayout, // Drawer layout
                 R.string.navigation_drawer_open, // String to open
                 R.string.navigation_drawer_close // String to close
         );
 
         //Adding the drawer toggle to the home page
-        mHomePageLayout.addDrawerListener(mActionBarDrawerToggle);
+        drawerLayout.addDrawerListener(mActionBarDrawerToggle);
 
         //Syncs the drawer state with home page layout
         mActionBarDrawerToggle.syncState();
@@ -119,7 +119,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
         /** Close the navigation drawer once a nav item is clicked */
-        mHomePageLayout.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
     }
@@ -137,27 +137,28 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    private void displayComingSoonMsg() {
-        Toast.makeText(this, "Coming soon...", Toast.LENGTH_SHORT).show();
-    }
-    
     private void openAccountFragment() {
+        UtilityService.hideKeyboard(this, mHomePageLayout);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccountFragment()).commit();
     }
     
     private void openProductListFragment() {
+        UtilityService.hideKeyboard(this, mHomePageLayout);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProductListFragment()).commit();
     }
 
     private void openBarcodeScanner() {
+        UtilityService.hideKeyboard(this, mHomePageLayout);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new BarcodeScannerFragment()).commit();
     }
 
     private void openFindStoreFragment() {
+        UtilityService.hideKeyboard(this, mHomePageLayout);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FindStoreFragment()).commit();
     }
 
     private void openOrderHistoryFragment() {
+        UtilityService.hideKeyboard(this, mHomePageLayout);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OrderHistoryFragment()).commit();
     }
 }

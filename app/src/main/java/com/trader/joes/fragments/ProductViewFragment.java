@@ -1,15 +1,9 @@
 package com.trader.joes.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.squareup.picasso.Picasso;
 import com.trader.joes.R;
 import com.trader.joes.adapter.ReviewListAdapter;
@@ -25,6 +22,7 @@ import com.trader.joes.model.Product;
 import com.trader.joes.model.Review;
 import com.trader.joes.service.ProductRetrievalService;
 import com.trader.joes.service.UserDataMaintenanceService;
+import com.trader.joes.service.UtilityService;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -143,7 +141,7 @@ public class ProductViewFragment extends Fragment {
         }
 
         private void submitReview() {
-            hideKeyboard();
+            UtilityService.hideKeyboard(getActivity(), mainLayout);
 
             float rating = mReviewRatingBar.getRating();
             String reviewText = String.valueOf(mReviewInput.getText());
@@ -157,7 +155,7 @@ public class ProductViewFragment extends Fragment {
         }
 
         private void closeReview() {
-            hideKeyboard();
+            UtilityService.hideKeyboard(getActivity(), mainLayout);
 
             mReviewRatingBar.setRating(5f);
             mReviewInput.setText("");
@@ -166,12 +164,6 @@ public class ProductViewFragment extends Fragment {
             mLeaveReviewBtn.setVisibility(View.VISIBLE);
             //Hide review form
             mReviewLayout.setVisibility(View.GONE);
-        }
-
-        private void hideKeyboard() {
-            //hide the keyboard
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0); //hide numeric keyboard
         }
     }
 }

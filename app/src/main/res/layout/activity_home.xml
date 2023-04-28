@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.HomeActivity">
+    tools:context=".activity.HomeActivity"
+    android:id="@+id/home_activity">
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/home_page_drawer_layout"

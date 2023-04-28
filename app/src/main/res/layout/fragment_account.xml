@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.AccountFragment"
-    android:layout_margin="20dp">
+    android:layout_margin="20dp"
+    android:id="@+id/account_mgmt_layout">
 
     <FrameLayout
         android:id="@+id/image_layout"

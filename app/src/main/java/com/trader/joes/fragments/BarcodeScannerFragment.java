@@ -31,7 +31,7 @@ import java.util.concurrent.Executors;
 /**
  * References:
  * https://developers.google.com/ml-kit/vision/barcode-scanning/android#java
- * https://medium.com/codex/scan-barcodes-in-android-using-the-ml-kit-30b2a03ccd50
+ * Kotlin QR code example: https://medium.com/codex/scan-barcodes-in-android-using-the-ml-kit-30b2a03ccd50
  */
 public class BarcodeScannerFragment extends Fragment {
 

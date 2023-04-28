@@ -1,13 +1,11 @@
 package com.trader.joes.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,7 +16,6 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.trader.joes.R;
 import com.trader.joes.adapter.CartListAdapter;
 import com.trader.joes.model.CardPattern;
@@ -27,13 +24,12 @@ import com.trader.joes.model.Transaction;
 import com.trader.joes.model.User;
 import com.trader.joes.service.AuthService;
 import com.trader.joes.service.UserDataMaintenanceService;
+import com.trader.joes.service.UtilityService;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -231,8 +227,7 @@ public class CartFragment extends Fragment {
 
         private void confirmPayment() {
             //hide the keyboard
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(mainLayout.getWindowToken(), 0); //hide numeric keyboard
+            UtilityService.hideKeyboard(getActivity(), mainLayout);
 
             //validate all inputs
             validateExpirationDate();
@@ -295,6 +290,8 @@ public class CartFragment extends Fragment {
         }
 
         private void backToCart() {
+            UtilityService.hideKeyboard(getActivity(), mainLayout);
+
             //show checkout btn, and cart items
             mProceedToCheckoutBtn.setVisibility(View.VISIBLE);
             mCartListView.setVisibility(View.VISIBLE);

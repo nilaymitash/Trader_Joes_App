@@ -1,14 +1,13 @@
 package com.trader.joes.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.trader.joes.R;
 import com.trader.joes.adapter.OrderHistoryListAdapter;
@@ -16,8 +15,6 @@ import com.trader.joes.model.Transaction;
 import com.trader.joes.model.TransactionHistory;
 import com.trader.joes.service.UserDataMaintenanceService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 

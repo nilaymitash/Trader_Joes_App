@@ -14,11 +14,13 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.auth.FirebaseUser;
 import com.trader.joes.R;
 import com.trader.joes.service.AuthService;
+import com.trader.joes.service.UtilityService;
 
 import java.util.function.Consumer;
 
 public class AccountFragment extends Fragment {
 
+    private RelativeLayout mainLayout;
     private Button mEditPhotoBtn;
     private Button mEditPersonalInfoBtn;
     private RelativeLayout mPersonalInfoLayout;
@@ -38,6 +40,7 @@ public class AccountFragment extends Fragment {
         authService = new AuthService();
 
         //initialize UI components
+        mainLayout = view.findViewById(R.id.account_mgmt_layout);
         mEditPhotoBtn = view.findViewById(R.id.edit_profile_photo);
         mEditPersonalInfoBtn = view.findViewById(R.id.edit_personal_info_btn);
         mPersonalInfoLayout = view.findViewById(R.id.personal_info_layout);
@@ -98,6 +101,7 @@ public class AccountFragment extends Fragment {
         }
 
         private void savePersonalInfo() {
+            UtilityService.hideKeyboard(getActivity(), mainLayout);
 
             Consumer<Void> successCallback = new Consumer<Void>() {
                 @Override
@@ -119,6 +123,7 @@ public class AccountFragment extends Fragment {
         }
 
         private void cancelPersonalInfo() {
+            UtilityService.hideKeyboard(getActivity(), mainLayout);
             mEditPersonalInfoBtn.setVisibility(View.VISIBLE);
             mPersonalInfoLayout.setVisibility(View.VISIBLE);
             mEditPersonalInfoLayout.setVisibility(View.GONE);
