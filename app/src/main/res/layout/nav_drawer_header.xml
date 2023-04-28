@@ -22,20 +22,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Welcome, Username goes here"
-            android:layout_marginLeft="20dp"
+
             android:textSize="16sp"
             android:layout_centerVertical="true"/>
-
-        <!--<com.google.android.material.button.MaterialButton
-            android:layout_toRightOf="@id/username_label"
-            android:id="@+id/edit_profile_btn"
-            app:icon="@drawable/edit_icon"
-            app:strokeColor="@color/tj_red_primary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="true"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_centerVertical="true"/>-->
 
     </RelativeLayout>
 

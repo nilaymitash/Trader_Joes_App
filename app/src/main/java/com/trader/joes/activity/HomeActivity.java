@@ -2,7 +2,11 @@ package com.trader.joes.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseUser;
 import com.trader.joes.R;
 import com.trader.joes.fragments.AccountFragment;
 import com.trader.joes.fragments.BarcodeScannerFragment;
@@ -30,6 +35,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private NavigationView mNavigationView;
     private BottomNavigationView mBottomNavigationView;
+    private ImageView mProfilePic;
+    private TextView mUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mHomePageLayout = findViewById(R.id.home_page_drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
         mBottomNavigationView = findViewById(R.id.bottom_nav_view);
+
+        populateNavHeaderData();
 
         //set the item selected listener to the navigation view components
         mNavigationView.setNavigationItemSelectedListener(this);
@@ -65,6 +74,20 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new ProductListFragment()).commit();
+    }
+
+    private void populateNavHeaderData() {
+        FirebaseUser currentUser = authService.getCurrentUser();
+        View hView = mNavigationView.getHeaderView(0);
+        mProfilePic = hView.findViewById(R.id.profile_pic);
+        mUsername = hView.findViewById(R.id.username_label);
+
+        String displayName = currentUser.getDisplayName();
+        if(displayName != null && !displayName.trim().equals("")) {
+            mUsername.setText(displayName);
+        } else {
+            mUsername.setText(currentUser.getEmail());
+        }
     }
 
     private void signOutNavigation() {
