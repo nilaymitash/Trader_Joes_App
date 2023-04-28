@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.trader.joes.R;
 import com.trader.joes.model.Product;
+import com.trader.joes.model.Review;
+import com.trader.joes.service.ProductRetrievalService;
 import com.trader.joes.service.UserDataMaintenanceService;
 
 /**
@@ -42,6 +44,7 @@ public class ProductViewFragment extends Fragment {
     private RatingBar mReviewRatingBar;
     private EditText mReviewInput;
     private UserDataMaintenanceService userDataMaintenanceService;
+    private ProductRetrievalService productRetrievalService;
     Product selectedProduct;
 
     @Override
@@ -51,6 +54,7 @@ public class ProductViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_product_view, container, false);
 
         userDataMaintenanceService = new UserDataMaintenanceService();
+        productRetrievalService = new ProductRetrievalService();
 
         mainLayout = view.findViewById(R.id.product_view_layout);
         mProductNameView = view.findViewById(R.id.product_title_label);
@@ -81,9 +85,11 @@ public class ProductViewFragment extends Fragment {
     private void populateViewData() {
         mProductNameView.setText(this.selectedProduct.getProductName());
         Picasso.get().load(this.selectedProduct.getImgURL()).into(mProductImage);
-        mPriceLabel.setText(this.selectedProduct.getPrice());
+        mPriceLabel.setText("$" + this.selectedProduct.getPrice());
         mAddToCartBtn.setOnClickListener(new ProductViewListener());
         mViewCartBtn.setOnClickListener(new ProductViewListener());
+        mRatingBar.setRating(this.selectedProduct.getRating());
+        mNumOfRatingsLabel.setText("(" + this.selectedProduct.getNumOfRatings() + ")");
     }
 
     private class ProductViewListener implements View.OnClickListener {
@@ -99,7 +105,7 @@ public class ProductViewFragment extends Fragment {
                 break;
                 case R.id.submit_review_btn: submitReview();
                 break;
-                case R.id.cancel_review: cancelReview();
+                case R.id.cancel_review: closeReview();
             }
         }
 
@@ -124,13 +130,21 @@ public class ProductViewFragment extends Fragment {
             hideKeyboard();
 
             float rating = mReviewRatingBar.getRating();
-            String review = String.valueOf(mReviewInput.getText());
+            String reviewText = String.valueOf(mReviewInput.getText());
 
-            Toast.makeText(getActivity(), rating + " | " +review, Toast.LENGTH_SHORT).show();
+            Review review = new Review();
+            review.setRating(rating);
+            review.setReview(reviewText);
+            productRetrievalService.addReview(selectedProduct.getSku(), review);
+            closeReview();
+            Toast.makeText(getActivity(), "Review submitted successfully!", Toast.LENGTH_SHORT).show();
         }
 
-        private void cancelReview() {
+        private void closeReview() {
             hideKeyboard();
+
+            mReviewRatingBar.setRating(5f);
+            mReviewInput.setText("");
 
             //Show leave review button
             mLeaveReviewBtn.setVisibility(View.VISIBLE);
