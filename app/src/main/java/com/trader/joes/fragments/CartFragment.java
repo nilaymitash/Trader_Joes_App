@@ -229,10 +229,14 @@ public class CartFragment extends Fragment {
             //hide the keyboard
             UtilityService.hideKeyboard(getActivity(), mainLayout);
 
-            //validate all inputs
+            //TODO: validate all inputs
             validateExpirationDate();
+
             Transaction transaction = populateTransactionObject();
 
+            /**
+             * function to be called when order is saved successfully in Firebase DB
+             */
             Consumer<Transaction> successCallback = new Consumer<Transaction>() {
                 @Override
                 public void accept(Transaction transaction) {

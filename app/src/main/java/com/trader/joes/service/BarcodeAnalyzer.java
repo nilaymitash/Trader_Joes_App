@@ -25,6 +25,9 @@ import com.trader.joes.model.Product;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This analyzer service analyzes the input image to find barcodes
+ */
 public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
 
     private UserDataMaintenanceService userDataMaintenanceService;
@@ -60,6 +63,15 @@ public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
                 translateY((float)rect.bottom));
     }
 
+    /**
+     * This method is invoked as the part of Camera Provider's usecases lifecycle.
+     * Intended to be used by the BarcodeScannerFragment so that,
+     * the user doesn't have to take an action to capture image.
+     *
+     * This analyze function will automatically detect any barcodes present in front of the camera
+     *
+     * @param image The image to analyze
+     */
     @Override
     @OptIn(markerClass = ExperimentalGetImage.class)
     public void analyze(@NonNull ImageProxy image) {
@@ -70,13 +82,18 @@ public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
             scaleX = previewViewWidth / (float)img.getHeight();
             scaleY = previewViewHeight / (float)img.getWidth();
 
+            //convert input image proxy to a Machine Learning Input task of type InputImage
             InputImage inputImage = InputImage.fromMediaImage(img, image.getImageInfo().getRotationDegrees());
 
-            //Process image searching for barcodes
+            //Build barcode options to be used by the barcode scanner
+            //options include the type of barcode to be detected
             BarcodeScannerOptions options = new BarcodeScannerOptions.Builder().setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS).build();
 
+            //create barcode scanner using the barcode options
             BarcodeScanner scanner = BarcodeScanning.getClient(options);
 
+            //when the input image ML task identifies a barcode successfully,
+            //onSuccess method of the OnSuccessListener will execute.
             scanner.process(inputImage).addOnSuccessListener(new OnSuccessListener<List<Barcode>>() {
                 @Override
                 public void onSuccess(List<Barcode> barcodes) {
@@ -86,16 +103,19 @@ public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
                             Rect boundingBox = barcode.getBoundingBox();
                             barcodeBoxView.setRect(adjustBoundingRect(boundingBox));
 
-                            //add product to the cart.
+                            //the raw value of the barcode is expected to be a Product SKU
                             String productSku = barcode.getRawValue();
+                            //Fetch product from the product map using the barcode SKU
                             Product product = productMap.get(productSku);
+                            //if a match is found, add the product to user's cart
                             if(product != null) {
                                 userDataMaintenanceService.addProductToUserCart(product);
                                 Toast.makeText(context, product.getProductName() + " added to your cart!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     } else {
-                        //Remove bounding rect
+                        //Remove bounding rect if no barcodes found
+                        //Note: this is a unlikely event but can happen due to a glitch in android studio.
                         barcodeBoxView.setRect(new RectF());
                     }
                 }

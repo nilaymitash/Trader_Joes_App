@@ -8,6 +8,11 @@ import android.view.View;
 
 import com.trader.joes.R;
 
+/**
+ * This view adds a red rectangle on the screen
+ * Intended to be used by the barcode analyzer,
+ * to add a red rectangle on the screen when a barcode is found.
+ */
 public class BarcodeBoxView extends View {
 
     private Paint paint = new Paint();
@@ -30,6 +35,10 @@ public class BarcodeBoxView extends View {
         }
     }
 
+    /**
+     * This function is used to set and reset rect on a view
+     * @param rect
+     */
     public void setRect(RectF rect) {
         mRect = rect;
         invalidate();

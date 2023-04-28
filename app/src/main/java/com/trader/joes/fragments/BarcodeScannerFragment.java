@@ -29,6 +29,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
+ * This fragment represents the barcode scanner
  * References:
  * https://developers.google.com/ml-kit/vision/barcode-scanning/android#java
  * Kotlin QR code example: https://medium.com/codex/scan-barcodes-in-android-using-the-ml-kit-30b2a03ccd50
@@ -82,6 +83,7 @@ public class BarcodeScannerFragment extends Fragment {
      */
     private void checkCameraPermission() {
         String[] permissionArray = {Manifest.permission.CAMERA};
+        //if CAMERA permission has not been granted previously, prompt a permission required dialog
         if(shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
             requestPermissions(permissionArray, 0);
         }
@@ -90,9 +92,10 @@ public class BarcodeScannerFragment extends Fragment {
 
     private void checkIfCameraPermissionIsGranted() {
         if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            //if permission is granted, start the camera.
             startCamera();
         } else {
-            //permission denied
+            //permission denied - show a dialog box
             new MaterialAlertDialogBuilder(getActivity()).setTitle("Permission required")
                     .setMessage("This application needs to access the camera to process barcodes")
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -107,8 +110,10 @@ public class BarcodeScannerFragment extends Fragment {
     }
 
     private void startCamera() {
+        //instantiate a camera provider promise
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(getActivity());
 
+        //add a listener to the promise. Will execute run() when promise is resolved
         cameraProviderFuture.addListener(new Runnable() {
             @Override
             public void run() {

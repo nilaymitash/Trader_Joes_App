@@ -180,6 +180,9 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
         return "19333"; //94043
     }
 
+    /**
+     * This async task makes a call to real Trader Joe's API to fetch locations in real time
+     */
     private class FindStoreTask extends AsyncTask<Void, Void, String> {
         String userEnteredZipcode = "19333";
 
@@ -224,6 +227,11 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
             //TODO: show progress bar
         }
 
+        /**
+         * This method runs in the background to make a POST call to get location data which includes the coordinates
+         * @param voids
+         * @return
+         */
         @Override
         protected String doInBackground(Void... voids) {
             String result = "";
@@ -257,6 +265,10 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
             return result;
         }
 
+        /**
+         * This method converts the response into a list of Store objects
+         * @param str
+         */
         @Override
         protected void onPostExecute(String str) {
             super.onPostExecute(str);
@@ -275,6 +287,12 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
                 e.printStackTrace();
             }
         }
+
+        /**
+         * This method is used to plot a list of stores on the map
+         * and animate the camera to the firt store in the list
+         * @param list
+         */
         private void plotMarkersOnMap(List<Store> list) {
             mMap.clear();
             LatLng firstStore = new LatLng(list.get(0).getLatitude(), list.get(0).getLongitude());
