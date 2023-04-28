@@ -101,4 +101,24 @@ public class ProductRetrievalService {
             }
         });
     }
+
+    public void getReviewList(String productId, Consumer<List<Review>> successCallback) {
+        productsRef.child(productId).child("reviews").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Review> reviews = new ArrayList<>();
+                for(DataSnapshot ds : snapshot.getChildren()) {
+                    Review review = ds.getValue(Review.class);
+                    reviews.add(review);
+                }
+                //Execute success callback function provided by the caller
+                successCallback.accept(reviews);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //Execute failure callback function provided by the caller
+            }
+        });
+    }
 }

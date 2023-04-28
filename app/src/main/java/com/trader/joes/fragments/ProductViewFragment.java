@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,14 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.trader.joes.R;
+import com.trader.joes.adapter.ReviewListAdapter;
 import com.trader.joes.model.Product;
 import com.trader.joes.model.Review;
 import com.trader.joes.service.ProductRetrievalService;
 import com.trader.joes.service.UserDataMaintenanceService;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * This fragment is to display 1 product information at a time.
@@ -45,6 +50,7 @@ public class ProductViewFragment extends Fragment {
     private EditText mReviewInput;
     private UserDataMaintenanceService userDataMaintenanceService;
     private ProductRetrievalService productRetrievalService;
+    private RecyclerView reviewRecyclerView;
     Product selectedProduct;
 
     @Override
@@ -70,12 +76,22 @@ public class ProductViewFragment extends Fragment {
         mCancelReviewBtn = view.findViewById(R.id.cancel_review);
         mReviewRatingBar = view.findViewById(R.id.review_rating);
         mReviewInput = view.findViewById(R.id.review_input);
+        reviewRecyclerView = view.findViewById(R.id.review_list);
 
         this.selectedProduct = (Product)getArguments().getSerializable("SELECTED_PRODUCT");
 
         mLeaveReviewBtn.setOnClickListener(new ProductViewListener());
         mSubmitReviewBtn.setOnClickListener(new ProductViewListener());
         mCancelReviewBtn.setOnClickListener(new ProductViewListener());
+
+        Consumer<List<Review>> successCallback = new Consumer<List<Review>>() {
+            @Override
+            public void accept(List<Review> reviews) {
+                ReviewListAdapter reviewListAdapter = new ReviewListAdapter(reviews);
+                reviewRecyclerView.setAdapter(reviewListAdapter);
+            }
+        };
+        new ProductRetrievalService().getReviewList(this.selectedProduct.getSku(), successCallback);
 
         populateViewData();
 
