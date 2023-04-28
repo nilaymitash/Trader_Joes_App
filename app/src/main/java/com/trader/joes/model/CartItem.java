@@ -1,6 +1,8 @@
 package com.trader.joes.model;
 
-public class CartItem {
+import java.io.Serializable;
+
+public class CartItem implements Serializable {
 
     private String productSku;
     private String price;

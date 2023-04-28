@@ -1,6 +1,8 @@
 package com.trader.joes.model;
 
-public class Review {
+import java.io.Serializable;
+
+public class Review implements Serializable {
 
     private String userId;
     private String review;

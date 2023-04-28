@@ -129,6 +129,7 @@ public class ProductViewFragment extends Fragment {
         }
 
         private void viewCart() {
+            UtilityService.hideKeyboard(getActivity(), mainLayout);
             //navigate user to Cart view on click of "View cart" button
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CartFragment()).commit();
         }
