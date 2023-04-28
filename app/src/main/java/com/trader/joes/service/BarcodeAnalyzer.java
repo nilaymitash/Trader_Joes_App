@@ -20,9 +20,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 import com.trader.joes.fragments.BarcodeBoxView;
-import com.trader.joes.model.CartItem;
 import com.trader.joes.model.Product;
-import com.trader.joes.model.User;
 
 import java.util.List;
 import java.util.Map;

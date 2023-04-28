@@ -52,17 +52,11 @@ public class ProductRetrievalService {
         productsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //This list contains all products
-                List<Product> allProducts = new ArrayList<>();
-
-                //Product characteristics will be used for data filtering (future capability)
                 Set<String> productCharacteristics = new LinkedHashSet<>();
-
                 for(DataSnapshot ds : snapshot.getChildren()) {
                     Product product = ds.getValue(Product.class);
-                    allProducts.add(product);
-                    allProductsMap.put(product.getSku(), product);
-
+                    String sku = ds.getKey();
+                    allProductsMap.put(sku, product);
                     for(String s: product.getProductCharacteristics()) {
                         productCharacteristics.add(s);
                     }
@@ -70,7 +64,7 @@ public class ProductRetrievalService {
                 new ProductFilter().setFilterOptions(productCharacteristics);
 
                 //Execute success callback function provided by the caller
-                success.accept(allProducts);
+                success.accept(new ArrayList<>(allProductsMap.values()));
             }
 
             @Override

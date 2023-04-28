@@ -172,6 +172,7 @@ public class ProductListFragment extends Fragment {
         };
 
         //Fetch all products from real time database
+        //productRetrievalService.getAllProducts(productConsumer, dbErrorConsumer);
         productRetrievalService.getAllProducts(productConsumer, dbErrorConsumer);
     }
 
