@@ -1,19 +1,24 @@
 package com.trader.joes.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.trader.joes.R;
 import com.trader.joes.service.AuthService;
+import com.trader.joes.service.StorageService;
 import com.trader.joes.service.UtilityService;
 
 import java.util.function.Consumer;
@@ -22,6 +27,7 @@ public class AccountFragment extends Fragment {
 
     private RelativeLayout mainLayout;
     private Button mEditPhotoBtn;
+    private ImageView mProfilePic;
     private Button mEditPersonalInfoBtn;
     private RelativeLayout mPersonalInfoLayout;
     private RelativeLayout mEditPersonalInfoLayout;
@@ -32,16 +38,20 @@ public class AccountFragment extends Fragment {
     private EditText mEditNameInput;
     private EditText mEditEmailInput;
     private AuthService authService;
+    private StorageService storageService;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
+
         authService = new AuthService();
+        storageService = new StorageService();
 
         //initialize UI components
         mainLayout = view.findViewById(R.id.account_mgmt_layout);
         mEditPhotoBtn = view.findViewById(R.id.edit_profile_photo);
+        mProfilePic = view.findViewById(R.id.profilePic);
         mEditPersonalInfoBtn = view.findViewById(R.id.edit_personal_info_btn);
         mPersonalInfoLayout = view.findViewById(R.id.personal_info_layout);
         mEditPersonalInfoLayout = view.findViewById(R.id.edit_personal_info_layout);
@@ -58,6 +68,7 @@ public class AccountFragment extends Fragment {
         mSavePersonalInfoBtn.setOnClickListener(new AccountFragmentListener());
         mCancelPersonalInfoBtn.setOnClickListener(new AccountFragmentListener());
 
+        storageService.downloadProfilePic(mProfilePic);
         updateProfileDetails();
         return view;
     }
@@ -86,7 +97,15 @@ public class AccountFragment extends Fragment {
         }
 
         private void editProfilePhoto() {
+            mProfilePic.setImageResource(R.drawable.trader_joes_logo);
 
+            mProfilePic.setDrawingCacheEnabled(true);
+            mProfilePic.buildDrawingCache();
+            Bitmap bitmap = ((BitmapDrawable) mProfilePic.getDrawable()).getBitmap();
+
+            new StorageService().saveProfilePic(bitmap, getActivity());
+
+            Toast.makeText(getActivity(), "Firebase storage coming soon", Toast.LENGTH_SHORT).show();
         }
 
         private void initializeEditPersonalInfo() {
