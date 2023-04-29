@@ -44,6 +44,28 @@
         android:layout_marginTop="5dp"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/empty_location_list"
+        android:layout_below="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/tj_beige"
+        android:layout_margin="7dp"
+        android:padding="10dp"
+        android:visibility="gone">
+
+        <TextView
+            android:text="Sorry, no Trader Joe's found in your area."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/tj_red_primary"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/location_list"
         android:layout_below="@id/map"

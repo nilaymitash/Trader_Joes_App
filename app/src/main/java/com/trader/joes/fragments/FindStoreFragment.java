@@ -27,6 +27,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.trader.joes.R;
@@ -59,6 +60,7 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
     private Button mSearchBtn;
     private StoreLocationAdapter storeLocationAdapter;
     private RecyclerView locationRecyclerView;
+    private MaterialCardView emptyListMsgCard;
     private List<Store> locationList = new ArrayList<>();
 
     @Override
@@ -72,6 +74,7 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
         mSearchBtn = view.findViewById(R.id.search_stores_btn);
         storeLocationAdapter = new StoreLocationAdapter(locationList);
         locationRecyclerView = view.findViewById(R.id.location_list);
+        emptyListMsgCard = view.findViewById(R.id.empty_location_list);
         locationRecyclerView.setAdapter(storeLocationAdapter);
 
         // Initialize map fragment
@@ -178,6 +181,21 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
         }
 
         return "19333"; //94043
+    }
+
+    private Coordinates getCoordinates(String zip) {
+        Coordinates coordinates = new Coordinates();
+        if(getActivity() != null) {
+            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+            try {
+                List<Address> addresses = geocoder.getFromLocationName(zip, 1);
+                coordinates.setLatitude(addresses.get(0).getLatitude());
+                coordinates.setLongitude(addresses.get(0).getLongitude());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return coordinates;
     }
 
     /**
@@ -295,12 +313,20 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
          */
         private void plotMarkersOnMap(List<Store> list) {
             mMap.clear();
-            LatLng firstStore = new LatLng(list.get(0).getLatitude(), list.get(0).getLongitude());
-            for (Store store : list) {
-                LatLng latLng = new LatLng(store.getLatitude(), store.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(latLng).title(store.getName()));
+            if(list != null) {
+                emptyListMsgCard.setVisibility(View.GONE);
+                LatLng firstStore = new LatLng(list.get(0).getLatitude(), list.get(0).getLongitude());
+                for (Store store : list) {
+                    LatLng latLng = new LatLng(store.getLatitude(), store.getLongitude());
+                    mMap.addMarker(new MarkerOptions().position(latLng).title(store.getName()));
+                }
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(firstStore, 10));
+            } else {
+                emptyListMsgCard.setVisibility(View.VISIBLE);
+                Coordinates coordinates = getCoordinates(String.valueOf(mZipcodeInput.getText()));
+                LatLng zipLatLng = new LatLng(coordinates.getLatitude(), coordinates.getLongitude());
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(zipLatLng, 12));
             }
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(firstStore, 10));
         }
 
     }

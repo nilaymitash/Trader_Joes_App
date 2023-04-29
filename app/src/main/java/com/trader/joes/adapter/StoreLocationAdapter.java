@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import com.trader.joes.R;
 import com.trader.joes.model.Store;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class StoreLocationAdapter extends RecyclerView.Adapter<StoreLocationAdap
     }
 
     public void updateStoreList(List<Store> storeLocations) {
-        this.storeLocations = storeLocations;
+        this.storeLocations = storeLocations == null ? new ArrayList<>() : storeLocations;
         notifyDataSetChanged();
     }
 
