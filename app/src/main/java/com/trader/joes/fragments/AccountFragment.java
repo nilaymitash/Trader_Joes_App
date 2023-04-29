@@ -1,7 +1,9 @@
 package com.trader.joes.fragments;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -79,6 +82,41 @@ public class AccountFragment extends Fragment {
         mEmailAddress.setText(currentUser.getEmail());
     }
 
+    //TODO: replace deprecated code with newer code
+    private void chooseImage() {
+        //create implicit image Intent
+        Intent intent = new Intent();
+        intent.setType("image/**");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+
+        getActivity().startActivityForResult(Intent.createChooser(intent, "Select Picture"), 200);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == 200) {
+
+            // compare the resultCode with the
+            // SELECT_PICTURE constant
+            if (requestCode == 200) {
+                // Get the url of the image from data
+                Uri selectedImageUri = data.getData();
+                if (null != selectedImageUri) {
+                    // update the preview image in the layout
+                    mProfilePic.setImageURI(selectedImageUri);
+                    mProfilePic.setDrawingCacheEnabled(true);
+                    mProfilePic.buildDrawingCache();
+                    Bitmap bitmap = ((BitmapDrawable) mProfilePic.getDrawable()).getBitmap();
+
+                    storageService.saveProfilePic(bitmap, getActivity());
+                }
+            }
+        }
+    }
+
+    //TODO: replace deprecated code with newer code
     private class AccountFragmentListener implements View.OnClickListener {
 
         @Override
@@ -97,14 +135,7 @@ public class AccountFragment extends Fragment {
         }
 
         private void editProfilePhoto() {
-            mProfilePic.setImageResource(R.drawable.trader_joes_logo);
-
-            mProfilePic.setDrawingCacheEnabled(true);
-            mProfilePic.buildDrawingCache();
-            Bitmap bitmap = ((BitmapDrawable) mProfilePic.getDrawable()).getBitmap();
-
-            new StorageService().saveProfilePic(bitmap, getActivity());
-
+            chooseImage();
             Toast.makeText(getActivity(), "Firebase storage coming soon", Toast.LENGTH_SHORT).show();
         }
 
@@ -147,5 +178,6 @@ public class AccountFragment extends Fragment {
             mPersonalInfoLayout.setVisibility(View.VISIBLE);
             mEditPersonalInfoLayout.setVisibility(View.GONE);
         }
+
     }
 }
