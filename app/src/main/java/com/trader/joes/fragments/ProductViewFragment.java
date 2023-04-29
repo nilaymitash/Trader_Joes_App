@@ -87,6 +87,8 @@ public class ProductViewFragment extends Fragment {
             public void accept(List<Review> reviews) {
                 ReviewListAdapter reviewListAdapter = new ReviewListAdapter(reviews);
                 reviewRecyclerView.setAdapter(reviewListAdapter);
+                //update review when new reviews are added
+                updateReviewAndRating(reviews);
             }
         };
         new ProductRetrievalService().getReviewList(this.selectedProduct.getSku(), successCallback);
@@ -102,6 +104,12 @@ public class ProductViewFragment extends Fragment {
         mPriceLabel.setText("$" + this.selectedProduct.getPrice());
         mAddToCartBtn.setOnClickListener(new ProductViewListener());
         mViewCartBtn.setOnClickListener(new ProductViewListener());
+        mRatingBar.setRating(this.selectedProduct.getRating());
+        mNumOfRatingsLabel.setText("(" + this.selectedProduct.getNumOfRatings() + ")");
+    }
+
+    private void updateReviewAndRating(List<Review> reviews) {
+        this.selectedProduct.setReviews(reviews);
         mRatingBar.setRating(this.selectedProduct.getRating());
         mNumOfRatingsLabel.setText("(" + this.selectedProduct.getNumOfRatings() + ")");
     }
