@@ -121,7 +121,7 @@ public class FindStoreFragment extends Fragment implements OnMapReadyCallback {
             && getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             getActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
-            return false;
+            return isLocationPermissionGranted();
         }
 
         return true;

@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
@@ -40,6 +43,8 @@ public class BarcodeScannerFragment extends Fragment {
     private BarcodeBoxView barcodeBoxView;
     private PreviewView previewView;
 
+    private ActivityResultLauncher<String> requestCameraPermissionLauncher;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,7 +58,23 @@ public class BarcodeScannerFragment extends Fragment {
 
         getActivity().addContentView(barcodeBoxView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        checkCameraPermission();
+        requestCameraPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+            @Override
+            public void onActivityResult(Boolean result) {
+                if(result) {
+                    //Camera permission granted
+                    startCamera();
+                } else {
+                    //permission denied - show a dialog box
+                    new MaterialAlertDialogBuilder(getActivity()).setTitle("Permission required")
+                            .setMessage("Barcode scanner needs to access the camera to scan barcodes. Go to settings to give camera permission.")
+                            .setPositiveButton(R.string.ok, null).setCancelable(true)
+                            .create().show()
+                    ;
+                }
+            }
+        });
+        requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA);
 
         return view;
     }
@@ -70,43 +91,6 @@ public class BarcodeScannerFragment extends Fragment {
         super.onPause();
         cameraExecutor.shutdown();
         barcodeBoxView.setRect(new RectF());
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        checkIfCameraPermissionIsGranted();
-    }
-
-    /**
-     * This function is responsible to request the required CAMERA permission
-     */
-    private void checkCameraPermission() {
-        String[] permissionArray = {Manifest.permission.CAMERA};
-        //if CAMERA permission has not been granted previously, prompt a permission required dialog
-        if(shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
-            requestPermissions(permissionArray, 0);
-        }
-        checkIfCameraPermissionIsGranted();
-    }
-
-    private void checkIfCameraPermissionIsGranted() {
-        if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            //if permission is granted, start the camera.
-            startCamera();
-        } else {
-            //permission denied - show a dialog box
-            new MaterialAlertDialogBuilder(getActivity()).setTitle("Permission required")
-                    .setMessage("This application needs to access the camera to process barcodes")
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            checkCameraPermission();
-                        }
-                    }).setCancelable(true)
-                    .create().show()
-            ;
-        }
     }
 
     private void startCamera() {
