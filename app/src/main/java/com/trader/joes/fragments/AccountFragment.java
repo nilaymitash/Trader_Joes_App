@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -82,21 +81,19 @@ public class AccountFragment extends Fragment {
         mEmailAddress.setText(currentUser.getEmail());
     }
 
-    //TODO: replace deprecated code with newer code
     private void chooseImage() {
         //create implicit image Intent
-        Intent intent = new Intent();
-        intent.setType("image/**");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        getActivity().startActivityForResult(Intent.createChooser(intent, "Select Picture"), 200);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 200);
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == 200) {
+        if (resultCode == getActivity().RESULT_OK) {
 
             // compare the resultCode with the
             // SELECT_PICTURE constant
@@ -116,7 +113,6 @@ public class AccountFragment extends Fragment {
         }
     }
 
-    //TODO: replace deprecated code with newer code
     private class AccountFragmentListener implements View.OnClickListener {
 
         @Override
@@ -136,7 +132,6 @@ public class AccountFragment extends Fragment {
 
         private void editProfilePhoto() {
             chooseImage();
-            Toast.makeText(getActivity(), "Firebase storage coming soon", Toast.LENGTH_SHORT).show();
         }
 
         private void initializeEditPersonalInfo() {

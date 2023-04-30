@@ -25,6 +25,7 @@ import com.trader.joes.fragments.FindStoreFragment;
 import com.trader.joes.fragments.OrderHistoryFragment;
 import com.trader.joes.fragments.ProductListFragment;
 import com.trader.joes.service.AuthService;
+import com.trader.joes.service.StorageService;
 import com.trader.joes.service.UtilityService;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NavigationBarView.OnItemSelectedListener {
@@ -88,6 +89,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else {
             mUsername.setText(currentUser.getEmail());
         }
+        new StorageService().downloadProfilePic(mProfilePic);
     }
 
     private void signOutNavigation() {
