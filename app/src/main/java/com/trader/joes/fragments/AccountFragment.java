@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.trader.joes.R;
+import com.trader.joes.activity.HomeActivity;
 import com.trader.joes.service.AuthService;
 import com.trader.joes.service.StorageService;
 import com.trader.joes.service.UtilityService;
@@ -70,7 +71,13 @@ public class AccountFragment extends Fragment {
         mSavePersonalInfoBtn.setOnClickListener(new AccountFragmentListener());
         mCancelPersonalInfoBtn.setOnClickListener(new AccountFragmentListener());
 
-        storageService.downloadProfilePic(mProfilePic);
+        Consumer<Bitmap> successCallback = new Consumer<Bitmap>() {
+            @Override
+            public void accept(Bitmap bitmap) {
+                mProfilePic.setImageBitmap(Bitmap.createScaledBitmap(bitmap, mProfilePic.getWidth(), mProfilePic.getHeight(), false));
+            }
+        };
+        storageService.downloadProfilePic(successCallback);
         updateProfileDetails();
         return view;
     }
@@ -79,6 +86,8 @@ public class AccountFragment extends Fragment {
         FirebaseUser currentUser = authService.getCurrentUser();
         mDisplayName.setText(currentUser.getDisplayName());
         mEmailAddress.setText(currentUser.getEmail());
+        HomeActivity homeActivity = (HomeActivity) getActivity();
+        homeActivity.populateDisplayName();
     }
 
     private void chooseImage() {
@@ -106,8 +115,9 @@ public class AccountFragment extends Fragment {
                     mProfilePic.setDrawingCacheEnabled(true);
                     mProfilePic.buildDrawingCache();
                     Bitmap bitmap = ((BitmapDrawable) mProfilePic.getDrawable()).getBitmap();
-
                     storageService.saveProfilePic(bitmap, getActivity());
+                    HomeActivity homeActivity = (HomeActivity) getActivity();
+                    homeActivity.populateProfilePic(bitmap);
                 }
             }
         }

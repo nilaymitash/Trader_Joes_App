@@ -13,17 +13,16 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.function.Consumer;
 
 public class StorageService {
 
-    private StorageReference profilePicDirRef;
+    private final StorageReference profilePicDirRef;
 
     public StorageService() {
-         if(profilePicDirRef == null) {
-             FirebaseStorage storage = FirebaseStorage.getInstance();
-             StorageReference storageRef = storage.getReference();
-             profilePicDirRef = storageRef.child("profile-pictures");
-         }
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        profilePicDirRef = storageRef.child("profile-pictures");
     }
 
     private StorageReference getProfilePicRef() {
@@ -48,7 +47,7 @@ public class StorageService {
         });
     }
 
-    public void downloadProfilePic(ImageView imageView) {
+    public void downloadProfilePic(Consumer<Bitmap> successCallback) {
         StorageReference profilePicRef = getProfilePicRef();
 
         final long ONE_MEGABYTE = 1024 * 1024;
@@ -56,7 +55,7 @@ public class StorageService {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                imageView.setImageBitmap(Bitmap.createScaledBitmap(bmp, imageView.getWidth(), imageView.getHeight(), false));
+                successCallback.accept(bmp);
             }
         });
     }

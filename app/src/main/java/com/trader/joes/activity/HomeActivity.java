@@ -1,6 +1,7 @@
 package com.trader.joes.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,8 @@ import com.trader.joes.service.AuthService;
 import com.trader.joes.service.StorageService;
 import com.trader.joes.service.UtilityService;
 
+import java.util.function.Consumer;
+
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NavigationBarView.OnItemSelectedListener {
 
     private AuthService authService;
@@ -38,6 +41,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private BottomNavigationView mBottomNavigationView;
     private ImageView mProfilePic;
     private TextView mUsername;
+    private StorageService storageService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +49,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_home);
 
         authService = new AuthService();
+        storageService = new StorageService();
+        //initialize UI components
         mHomePageLayout = findViewById(R.id.home_activity);
         drawerLayout = findViewById(R.id.home_page_drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
+        View hView = mNavigationView.getHeaderView(0);
+        mProfilePic = hView.findViewById(R.id.profile_pic);
+        mUsername = hView.findViewById(R.id.username_label);
         mBottomNavigationView = findViewById(R.id.bottom_nav_view);
 
         populateNavHeaderData();
@@ -78,18 +87,32 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void populateNavHeaderData() {
-        FirebaseUser currentUser = authService.getCurrentUser();
-        View hView = mNavigationView.getHeaderView(0);
-        mProfilePic = hView.findViewById(R.id.profile_pic);
-        mUsername = hView.findViewById(R.id.username_label);
+        populateDisplayName();
+        populateProfilePic();
+    }
 
+    public void populateDisplayName() {
+        FirebaseUser currentUser = authService.getCurrentUser();
         String displayName = currentUser.getDisplayName();
         if(displayName != null && !displayName.trim().equals("")) {
             mUsername.setText(displayName);
         } else {
             mUsername.setText(currentUser.getEmail());
         }
-        new StorageService().downloadProfilePic(mProfilePic);
+    }
+
+    public void populateProfilePic() {
+        Consumer<Bitmap> successCallback = new Consumer<Bitmap>() {
+            @Override
+            public void accept(Bitmap bitmap) {
+                populateProfilePic(bitmap);
+            }
+        };
+        storageService.downloadProfilePic(successCallback);
+    }
+
+    public void populateProfilePic(Bitmap bitmap) {
+        mProfilePic.setImageBitmap(Bitmap.createScaledBitmap(bitmap, mProfilePic.getWidth(), mProfilePic.getHeight(), false));
     }
 
     private void signOutNavigation() {
