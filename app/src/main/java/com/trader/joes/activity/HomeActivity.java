@@ -101,6 +101,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public void populateDisplayName(String displayName) {
+        mUsername.setText(displayName);
+    }
+
     public void populateProfilePic() {
         Consumer<Bitmap> successCallback = new Consumer<Bitmap>() {
             @Override

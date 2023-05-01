@@ -23,6 +23,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private Button mBackButton;
     private Button mSignupButton;
+    private TextView mValidationLabel;
     private EditText mEmailInput;
     private EditText mPasswordInput;
     private EditText mConfirmPasswordInput;
@@ -44,6 +45,7 @@ public class SignupActivity extends AppCompatActivity {
         mConfirmPasswordInput = findViewById(R.id.confirm_password_input);
         mEmailValidationLabel = findViewById(R.id.email_validation_msg);
         mPasswordValidationLabel = findViewById(R.id.password_validation_msg);
+        mValidationLabel = findViewById(R.id.validation_label);
 
         /**
          * TextChangedListener is used here to validate
@@ -82,9 +84,12 @@ public class SignupActivity extends AppCompatActivity {
 
         private void signup() {
             if(isFormValid) {
+                mValidationLabel.setVisibility(View.GONE);
                 String email = mEmailInput.getText().toString();
                 String password = mPasswordInput.getText().toString();
                 createAccount(email, password);
+            } else {
+                mValidationLabel.setVisibility(View.VISIBLE);
             }
         }
 

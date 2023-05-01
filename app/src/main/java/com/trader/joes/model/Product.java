@@ -67,7 +67,9 @@ public class Product implements Serializable {
             for(Review review : this.reviews) {
                 totalRating += review.getRating();
             }
-            return totalRating/this.reviews.size();
+            float rating = totalRating/this.reviews.size();
+            String ratingStr = String.format("%.2f", rating);
+            return Float.parseFloat(ratingStr);
         }
         return 0;
     }

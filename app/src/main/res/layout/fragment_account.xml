@@ -179,7 +179,8 @@
         android:id="@+id/payment_info_layout"
         android:layout_below="@+id/header_divider_2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/payment_info_header"

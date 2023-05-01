@@ -161,7 +161,10 @@ public class AccountFragment extends Fragment {
             Consumer<Void> successCallback = new Consumer<Void>() {
                 @Override
                 public void accept(Void unused) {
-                    updateProfileDetails();
+                    mDisplayName.setText(mEditNameInput.getText());
+                    mEmailAddress.setText(mEditEmailInput.getText());
+                    HomeActivity homeActivity = (HomeActivity) getActivity();
+                    homeActivity.populateDisplayName(String.valueOf(mEditNameInput.getText()));
                 }
             };
 
