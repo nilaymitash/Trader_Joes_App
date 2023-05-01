@@ -11,12 +11,15 @@
     - List of products using Recycler View
     - Each item in the list shows product image, name, price, rating, add to cart button
     - Hamburger and Navigation drawer on the top left
-    - Navigation options include: User profile/Account settings, Find a store, and Logout
-    - On User profile page, user can:
-        - Add their profile pic, add/update name
-        - Save payment cards
-        - View purchase history
+    - Navigation options include: View all products, Find a store, manage Account, View order History, and Logout
+    - On Account management page, user can:
+        - Add/update their profile pic, 
+        - Add/update name
+        - Add/update email address
     - Cart view shows list of items added to the cart and payment option
+    - Order history page shows a nested expandable list of previous orders
+    - Bottom Navigation has these options: Home, Barcode scanner, and Manage Account
+    - Barcode scanner lets you add a product to the cart by simply pointing the camera to the product barcode.
 
 ## Video walkthrough
 
