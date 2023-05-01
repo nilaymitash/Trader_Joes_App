@@ -23,5 +23,5 @@
 
 ## Video walkthrough
 
-https://user-images.githubusercontent.com/63482714/232570434-ae052aef-3465-48b9-9142-91527bbb36a2.mp4
+https://youtu.be/l3KOpOEU-ts
 
